@@ -4,6 +4,7 @@ const cors = require('cors')
 const connectDB = require('./config/connectToDb')
 const dns = require('dns');
 dns.setServers(['8.8.8.8', '1.1.1.1']);
+const menuRoutes = require('./routes/menuRoutes')
 
 const app = express()
 const PORT = process.env.PORT
@@ -14,6 +15,7 @@ app.use(cors())
 app.use(express.json())
 
 app.get('/', (req, res) =>  res.send("Api is running"))
+app.use('/', menuRoutes)
 console.log(process.env.PORT);
 
 
