@@ -11,7 +11,7 @@ const getMenuItems = async (req, res) => {
 
 const createMenuItem = async (req, res) => {
     try {
-        
+        const {name, price, category, description, isAvailable } = req.body;
     } catch (error) {
         
     }
