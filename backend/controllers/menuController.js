@@ -9,4 +9,12 @@ const getMenuItems = async (req, res) => {
     }
 }
 
-module.exports = {getMenuItems}
+const createMenuItem = async (req, res) => {
+    try {
+        
+    } catch (error) {
+        
+    }
+}
+
+module.exports = {getMenuItems, createMenuItem}

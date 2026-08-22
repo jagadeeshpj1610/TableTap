@@ -16,7 +16,7 @@ app.use(cors())
 app.use(express.json())
 
 app.get('/', (req, res) =>  res.send("Api is running"))
-app.use('/', menuRoutes)
+app.use('/api/menu', menuRoutes)
 app.use('/api/orders', orderRoutes);
 console.log(process.env.PORT);
 

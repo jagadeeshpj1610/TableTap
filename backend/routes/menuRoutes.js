@@ -2,8 +2,9 @@ const express = require('express')
 
 const router = express.Router();
 
-const {getMenuItems} = require('../controllers/menuController')
+const {getMenuItems, createMenuItem} = require('../controllers/menuController')
 
-router.get('/api/menu', getMenuItems )
+router.get('/', getMenuItems )
+router.post('/', createMenuItem)
 
 module.exports = router
