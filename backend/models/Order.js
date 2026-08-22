@@ -14,7 +14,7 @@ const orderSchema = new mongoose.Schema({
             validator: (arr) => arr.length > 0,
             message: 'Order must contain at least one item'
         }
-    }
+    },
     status: { type: String, enum: ['pending', 'preparing', 'served'], default: 'pending' },
     totalAmount: { type: Number, required: true },
 }, { timestamps: true });
