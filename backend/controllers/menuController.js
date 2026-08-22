@@ -13,7 +13,7 @@ const createMenuItem = async (req, res) => {
     try {
         const {name, price, category, description, isAvailable } = req.body;
         const newItem = await Menu.create({name, price, category, description, isAvailable})
-        res.status(200).json({newItem})
+        res.status(201).json(newItem)
     } catch (error) {
         res.status(500).json({message : "failed to create menu item"})
     }
