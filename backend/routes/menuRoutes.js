@@ -6,6 +6,6 @@ const {getMenuItems, createMenuItem, updateMenuItem} = require('../controllers/m
 
 router.get('/', getMenuItems )
 router.post('/', createMenuItem)
-router.put(':/id', updateMenuItem)
+router.put('/:id', updateMenuItem)
 
 module.exports = router
