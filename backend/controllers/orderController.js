@@ -1,6 +1,7 @@
 const Order = require('../models/Order')
 
 
+
 const createOrder = async (req, res ) => {
     try {
         const {tableNumber, items} = req.body;
@@ -18,4 +19,13 @@ const createOrder = async (req, res ) => {
     }
 }
 
-module.exports = {createOrder}
+const getAllOrders = async (req, res) => {
+    try {
+        const allOrders = await Order.find({}).sort({createdAt : -1})
+        res.status(200).json(allOrders)
+    } catch (error) {
+        res.status(500).json({message : "failed to fetch the orders"})
+    }
+}
+
+module.exports = {createOrder, getAllOrders}
