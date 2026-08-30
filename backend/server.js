@@ -7,7 +7,7 @@ dns.setServers(['8.8.8.8', '1.1.1.1']);
 const menuRoutes = require('./routes/menuRoutes')
 const orderRoutes = require('./routes/orderRoutes')
 const tableRoutes = require('./routes/tableRoutes')
-const waiterCallRoutes = require('./routes/')
+const waiterCallRoutes = require('./routes/waiterCallRoutes')
 
 const app = express()
 const PORT = process.env.PORT
@@ -21,7 +21,7 @@ app.get('/', (req, res) =>  res.send("Api is running"))
 app.use('/api/menu', menuRoutes)
 app.use('/api/orders', orderRoutes);
 app.use('/api/tables', tableRoutes);
-router.use('/api/waiter-call', waiterCallRoutes)
+app.use('/api/waiter-call', waiterCallRoutes)
 
 console.log(process.env.PORT);
 

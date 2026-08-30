@@ -1,4 +1,4 @@
-const { create } = require('../models/Table');
+
 const WaiterCallSchema = require('../models/WaiterCall')
 
 const createWaiterCall = async (req, res) => {
