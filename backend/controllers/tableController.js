@@ -12,4 +12,14 @@ const fetchAllTables = async (req, res) => {
     }
 }
 
-module.exports = {fetchAllTables}
+const createTheTable = async (req, res) => {
+    try {
+        const {tableNumber, qrCodeId} = req.body;
+        const newOne = await Table.create({tableNumber, qrCodeId})
+        res.status(201).json(newOne)
+    } catch (error) {
+        res.status(500).json({message : "failed to create the table"});
+    }
+}
+
+module.exports = {fetchAllTables, createTheTable}
