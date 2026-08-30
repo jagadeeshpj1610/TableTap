@@ -31,12 +31,15 @@ const getAllOrders = async (req, res) => {
 const getOrderById = async (req, res) => {
     try {
         const { id } = req.params;
-        const specificOrder = await Order.findById(id)
+        const specificOrder = await Order.findById(id);
+        if (!specificOrder) {
+            return res.status(404).json({ message: "Order not found" });
+        }
         console.log(specificOrder);
         res.status(200).json(specificOrder)
     } catch (error) {
         console.log("damn");
-        res.status(500).json({ message: "order not found" })
+        res.status(500).json({ message: "failed to get the speific order" })
     }
 }
 
