@@ -45,14 +45,16 @@ const getOrderById = async (req, res) => {
 
 const updateOrderStatus = async (req, res) => {
     try {
-        const {id} = req.params;
-        const {status} = req.body;
-        const updatedOrder = await Order.findByIdAndUpdate(id, {status}, {returnDocument : 'after', runValidators : true})
-        if(!updatedOrder) res.status(404).json({message : "order not found"})
+        const { id } = req.params;
+        const { status } = req.body;
+        const updatedOrder = await Order.findByIdAndUpdate(id, { status }, { returnDocument: 'after', runValidators: true })
+        if (!updatedOrder) {
+            return res.status(404).json({ message: "order not found" })
+        }
         res.status(200).json(updatedOrder)
     } catch (error) {
-        res.status(500).json({message : 'failed to update the order status'})
+        res.status(500).json({ message: 'failed to update the order status' })
     }
 }
 
-module.exports = { createOrder, getAllOrders, getOrderById , updateOrderStatus}
+module.exports = { createOrder, getAllOrders, getOrderById, updateOrderStatus }
