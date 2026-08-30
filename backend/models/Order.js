@@ -15,7 +15,7 @@ const orderSchema = new mongoose.Schema({
             message: 'Order must contain at least one item'
         }
     },
-    status: { type: String, enum: ['pending', 'preparing', 'served'], default: 'pending' },
+    status: { type: String, enum: ['pending', 'preparing', 'ready', 'served'], default: 'pending' },
     totalAmount: { type: Number, required: true },
 }, { timestamps: true });
 
