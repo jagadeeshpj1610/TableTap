@@ -11,4 +11,15 @@ const createWaiterCall = async (req, res) => {
     }
 }
 
-module.exports = {createWaiterCall}
+const getAllWaiterCalls = async (req, res) => {
+    try {
+        const allCalls = await WaiterCallSchema.find({});
+        console.log(allCalls);
+        res.status(200).json(allCalls);
+    } catch (error) {
+        console.log("failed to fetch the waiter calls");
+        res.status(500).json({message : "failed to get the waiter calls"});
+    }
+}
+
+module.exports = {createWaiterCall, getAllWaiterCalls}
