@@ -4,11 +4,12 @@ const Order = require('../models/Order')
 
 const createOrder = async (req, res) => {
     try {
-        const { tableNumber, items } = req.body;
+        const { tableNumber, items, specialInstructios } = req.body;
         const totalAmount = items.reduce((total, item) => total + (item.quantity * item.price), 0);
         const newOrder = await Order.create({
             tableNumber,
             items,
+            specialInstructios,
             totalAmount,
         })
         res.status(201).json(newOrder)
