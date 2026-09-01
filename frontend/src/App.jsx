@@ -7,15 +7,13 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       const data = await getMenu()
-      console.log(data);
-      
       setMenuItems(data)
     };
     fetchData()
   }, [])
   return (
     <>
-      <h1>hello</h1>
+      <h1 className="text-3xl font-bold text-red-600">hello</h1>
     </>
   )
 
