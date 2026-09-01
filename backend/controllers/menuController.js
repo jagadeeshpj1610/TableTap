@@ -11,8 +11,8 @@ const getMenuItems = async (req, res) => {
 
 const createMenuItem = async (req, res) => {
     try {
-        const { name, price, category, description, isAvailable } = req.body;
-        const newItem = await Menu.create({ name, price, category, description, isAvailable })
+        const { name, price, category, description, isAvailable, isVeg, imageUrl } = req.body;
+        const newItem = await Menu.create({ name, price, category, description, isAvailable, isVeg, imageUrl })
         res.status(201).json(newItem)
     } catch (error) {
         res.status(500).json({ message: "failed to create menu item" })
@@ -22,8 +22,8 @@ const createMenuItem = async (req, res) => {
 const updateMenuItem = async (req, res) => {
     try {
         const { id } = req.params;
-        const { name, price, category, description, isAvailable } = req.body;
-        const updatedOne = await Menu.findByIdAndUpdate(id, { name, price, category, description, isAvailable }, { returnDocument: 'after' })
+        const { name, price, category, description, isAvailable, isVeg, imageUrl } = req.body;
+        const updatedOne = await Menu.findByIdAndUpdate(id, { name, price, category, description, isAvailable, imageUrl }, { returnDocument: 'after' })
         console.log("update succesful");
         res.status(200).json(updatedOne)
     } catch (error) {
