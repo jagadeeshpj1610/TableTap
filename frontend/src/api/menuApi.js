@@ -6,8 +6,8 @@ const getMenu = async () => {
         const response = await fetch(`${defaultApi}/menu`)
         console.log(response);
         const fetchedData = await response.json();
-        console.log(fetchedData);
-        // return fetchedData;
+        // console.log(fetchedData);
+        return fetchedData;
     } catch (error) {
         console.error("failed to fetch the menu:", error.message);
 
