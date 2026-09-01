@@ -23,7 +23,7 @@ const updateMenuItem = async (req, res) => {
     try {
         const { id } = req.params;
         const { name, price, category, description, isAvailable, isVeg, imageUrl } = req.body;
-        const updatedOne = await Menu.findByIdAndUpdate(id, { name, price, category, description, isAvailable, imageUrl }, { returnDocument: 'after' })
+        const updatedOne = await Menu.findByIdAndUpdate(id, { name, price, category, description, isAvailable,isVeg, imageUrl }, { returnDocument: 'after' })
         console.log("update succesful");
         res.status(200).json(updatedOne)
     } catch (error) {
