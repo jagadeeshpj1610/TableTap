@@ -57,4 +57,24 @@ const updateOrderStatus = async (req, res) => {
     }
 }
 
-module.exports = { createOrder, getAllOrders, getOrderById, updateOrderStatus }
+const getOrderBill = async (req, res) => {
+    try {
+        const {id} = req.params;
+        const billOrder = await Order.findById(id);
+        if(!billOrder) {
+            return res.status(404).json({message : "order bill is not found"})
+        }
+        const taxRate = 0.05;
+        const serviceChargeRate = 0.10;
+        const subTotal = billOrder.totalAmount;
+        const tax = subTotal * taxRate;
+        const serviceCharge = subTotal * serviceChargeRate;
+        const total = tax + serviceCharge + subTotal;
+        res.status(200).json({subTotal, tax, serviceCharge, total})
+
+    } catch (error) {
+        res.status(500).json({message : "failed to get the bill"})
+    }
+}
+
+module.exports = { createOrder, getAllOrders, getOrderById, updateOrderStatus, getOrderBill }
