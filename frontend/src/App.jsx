@@ -73,7 +73,7 @@ function App() {
   };
   return (
     <>
-      {currentOrder && <OrderTracking currentOrder={currentOrder} />}
+      {currentOrder && <OrderTracking currentOrder={currentOrder} onClose={() => setCurrentOrder(null)} />}
 
       {isCartOpen && (
         <Cart cartItems={cartItems} updateQuantity={updateQuantity} onClose={() => setIsCartOpen(false)} placeOrder={placeOrder} />
