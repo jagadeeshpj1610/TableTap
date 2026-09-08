@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import FoodCard from './components/FoodCard'
 import CategoryTabs from "./components/CategoryTabs";
 import SearchBar from "./components/SearchBar";
+import Cart from "./components/Cart";
 
 
 function App() {
@@ -38,12 +39,28 @@ function App() {
   }
   console.log(cartItems);
   const totalCartItems = cartItems.reduce((total, item) => total + item.quantity, 0);
-  console.log(totalCartItems);
+  // console.log(totalCartItems);
+
+  const updateQuantity = (menuItemId, change) => {
+    setCartItems(
+      cartItems
+        .map((cartItem) =>
+          cartItem.menuItem === menuItemId
+            ? { ...cartItem, quantity: cartItem.quantity + change }
+            : cartItem
+        )
+        .filter((cartItem) => cartItem.quantity > 0)
+    );
+  };
   return (
     <>
-      <Header cartCount = {totalCartItems} />
+     <Cart cartItems={cartItems} updateQuantity={updateQuantity} />
+
+      <Header cartCount={totalCartItems} />
       <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       <CategoryTabs selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
+      {console.log(cartItems)}
+
       <div className="grid grid-cols-3 md:grid-cols-4 gap-4 px-6 py-4">
         {filteredItems.map((item) => (
           <FoodCard
@@ -57,7 +74,6 @@ function App() {
           />
         ))}
       </div>
-
     </>
   )
 }
