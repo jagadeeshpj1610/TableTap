@@ -38,7 +38,7 @@ function App() {
   }
   console.log(cartItems);
   const totalCartItems = cartItems.reduce((total, item) => total + item.quantity, 0);
-  
+  console.log(totalCartItems);
   return (
     <>
       <Header cartCount = {totalCartItems} />
