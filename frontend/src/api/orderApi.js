@@ -20,4 +20,14 @@ const createOrder = async (tableNumber, orderItems) => {
     }
 }
 
-export default createOrder
+const getOrderById = async (id) => {
+    try {
+        const response = await fetch(`${defaultApi}/orders/${id}`);
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("failed to fetch the order:", error);
+    }
+};
+
+export  { createOrder, getOrderById }

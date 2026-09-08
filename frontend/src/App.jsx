@@ -5,7 +5,7 @@ import FoodCard from './components/FoodCard'
 import CategoryTabs from "./components/CategoryTabs";
 import SearchBar from "./components/SearchBar";
 import Cart from "./components/Cart";
-import createOrder from "./api/orderApi"
+import { createOrder, getOrderById } from "./api/orderApi"
 import OrderTracking from "./components/OrderTracking";
 
 
