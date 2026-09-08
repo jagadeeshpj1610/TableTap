@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { getOrderById } from "../api/orderApi";
 
-const OrderTracking = ({ currentOrder, onClose }) => {
+const OrderTracking = ({ currentOrder, onClose, callWaiter }) => {
     const [liveOrder, setLiveOrder] = useState(currentOrder);
+    const [waiterCalled, setWaiterCalled] = useState(false);
     useEffect(() => {
         const interval = setInterval(async () => {
             const updatedOrder = await getOrderById(currentOrder._id);
@@ -28,6 +29,18 @@ const OrderTracking = ({ currentOrder, onClose }) => {
                 className="text-sm text-[#767676] underline"
             >
                 Back to Menu
+            </button>
+            <button
+                onClick={async () => {
+                    await callWaiter();
+                    setWaiterCalled(true);
+                }}
+                disabled={waiterCalled}
+                className={waiterCalled
+                    ? "bg-neutral-200 text-neutral-500 px-6 py-2 rounded-full text-sm font-medium mb-4 cursor-not-allowed"
+                    : "bg-white border border-[#8B2635] text-[#8B2635] px-6 py-2 rounded-full text-sm font-medium mb-4"}
+            >
+                {waiterCalled ? "Waiter Called ✓" : "Call Waiter"}
             </button>
         </div>
     )

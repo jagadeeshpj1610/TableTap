@@ -7,6 +7,7 @@ import SearchBar from "./components/SearchBar";
 import Cart from "./components/Cart";
 import { createOrder, getOrderById } from "./api/orderApi"
 import OrderTracking from "./components/OrderTracking";
+import { createWaiterCall } from "./api/waiterApi";
 
 
 function App() {
@@ -71,9 +72,14 @@ function App() {
     setCartItems([])
     setIsCartOpen(false)
   };
+
+  const callWaiter = async () => {
+    const data = await createWaiterCall(tableNumber);
+    console.log("Waiter called:", data);
+  };
   return (
     <>
-      {currentOrder && <OrderTracking currentOrder={currentOrder} onClose={() => setCurrentOrder(null)} />}
+      {currentOrder && <OrderTracking currentOrder={currentOrder} onClose={() => setCurrentOrder(null)} callWaiter={callWaiter} />}
 
       {isCartOpen && (
         <Cart cartItems={cartItems} updateQuantity={updateQuantity} onClose={() => setIsCartOpen(false)} placeOrder={placeOrder} />
