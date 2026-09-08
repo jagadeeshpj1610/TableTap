@@ -22,8 +22,7 @@ function App() {
     <>
       <Header />
       <CategoryTabs selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
-      <div className="grid grid-cols-3 md:grid-cols-4 gap-3 p-3">
-
+      <div className="grid grid-cols-3 md:grid-cols-4 gap-4 px-6 py-4">
         {filteredItems.map((item) => (
           <FoodCard
             key={item._id}
