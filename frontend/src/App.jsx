@@ -6,6 +6,7 @@ import CategoryTabs from "./components/CategoryTabs";
 import SearchBar from "./components/SearchBar";
 import Cart from "./components/Cart";
 import createOrder from "./api/orderApi"
+import OrderTracking from "./components/OrderTracking";
 
 
 function App() {
@@ -58,20 +59,22 @@ function App() {
     );
   };
   const placeOrder = async () => {
-  const orderItems = cartItems.map((item) => ({
-    menuItem: item.menuItem,
-    quantity: item.quantity,
-    price: item.price
-  }));
+    const orderItems = cartItems.map((item) => ({
+      menuItem: item.menuItem,
+      quantity: item.quantity,
+      price: item.price
+    }));
 
-  const data = await createOrder(tableNumber, orderItems);
-  console.log("Order placed:", data);
-  setCurrentOrder(data)
-  setCartItems([])
-  setIsCartOpen(false)
-};
+    const data = await createOrder(tableNumber, orderItems);
+    console.log("Order placed:", data);
+    setCurrentOrder(data)
+    setCartItems([])
+    setIsCartOpen(false)
+  };
   return (
     <>
+      {currentOrder && <OrderTracking currentOrder={currentOrder} />}
+
       {isCartOpen && (
         <Cart cartItems={cartItems} updateQuantity={updateQuantity} onClose={() => setIsCartOpen(false)} placeOrder={placeOrder} />
       )}

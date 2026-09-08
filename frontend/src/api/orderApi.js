@@ -11,7 +11,8 @@ const createOrder = async (tableNumber, orderItems) => {
             })
         })
         const data = await response.json()
-        console.log("order placed with this dat :", data);
+        console.log("order placed with this data :", data);
+        return data
         
     } catch (error) {
         console.error("failed to plcae the order : ",error);
