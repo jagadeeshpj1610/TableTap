@@ -12,6 +12,7 @@ function App() {
   const [selectedCategory, setSelectedCategory] = useState("All")
   const [searchTerm, setSearchTerm] = useState("")
   const [cartItems, setCartItems] = useState([])
+  const [isCartOpen, setIsCartOpen] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
       const data = await getMenu()
@@ -54,9 +55,11 @@ function App() {
   };
   return (
     <>
-     <Cart CartItems={cartItems} updateQuantity={updateQuantity} />
+      {isCartOpen && (
+        <Cart cartItems={cartItems} updateQuantity={updateQuantity} onClose={() => setIsCartOpen(false)} />
+      )}
 
-      <Header cartCount={totalCartItems} />
+      <Header cartCount={totalCartItems} onCartClick={() => setIsCartOpen(true)} />
       <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       <CategoryTabs selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
       {console.log(cartItems)}
