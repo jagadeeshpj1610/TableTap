@@ -5,7 +5,7 @@ import FoodCard from './components/FoodCard'
 import CategoryTabs from "./components/CategoryTabs";
 import SearchBar from "./components/SearchBar";
 import Cart from "./components/Cart";
-import { createOrder, getOrderById } from "./api/orderApi"
+import { createOrder, getOrderById, getOrderBill } from "./api/orderApi"
 import OrderTracking from "./components/OrderTracking";
 import { createWaiterCall } from "./api/waiterApi";
 
@@ -17,6 +17,7 @@ function App() {
   const [cartItems, setCartItems] = useState([])
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [currentOrder, setCurrentOrder] = useState(null);
+  const [bill, setBill] = useState(null);
 
   const tableNumber = 5;
   useEffect(() => {
@@ -77,9 +78,15 @@ function App() {
     const data = await createWaiterCall(tableNumber);
     console.log("Waiter called:", data);
   };
+
+  const viewBill = async () => {
+    const billData = await getOrderBill(currentOrder._id);
+    console.log(billData);
+    setBill(billData);
+  };
   return (
     <>
-      {currentOrder && <OrderTracking currentOrder={currentOrder} onClose={() => setCurrentOrder(null)} callWaiter={callWaiter} />}
+      {currentOrder && <OrderTracking currentOrder={currentOrder} onClose={() => setCurrentOrder(null)} callWaiter={callWaiter} viewBill = {viewBill} bill = {bill} />}
 
       {isCartOpen && (
         <Cart cartItems={cartItems} updateQuantity={updateQuantity} onClose={() => setIsCartOpen(false)} placeOrder={placeOrder} />

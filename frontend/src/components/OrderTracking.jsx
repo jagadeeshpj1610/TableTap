@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { getOrderById } from "../api/orderApi";
 
-const OrderTracking = ({ currentOrder, onClose, callWaiter }) => {
+const OrderTracking = ({ currentOrder, onClose, callWaiter, viewBill, bill }) => {
     const [liveOrder, setLiveOrder] = useState(currentOrder);
+    console.log(bill);
     const [waiterCalled, setWaiterCalled] = useState(false);
     useEffect(() => {
         const interval = setInterval(async () => {
@@ -42,6 +43,21 @@ const OrderTracking = ({ currentOrder, onClose, callWaiter }) => {
             >
                 {waiterCalled ? "Waiter Called ✓" : "Call Waiter"}
             </button>
+            <button
+                onClick={viewBill}
+                className="bg-white border border-neutral-300 text-[#1A1A1A] px-6 py-2 rounded-full text-sm font-medium mb-4"
+            >
+                View Bill
+            </button>
+
+            {bill && (
+                <div className="bg-white p-4 rounded-xl text-sm text-left w-full max-w-xs">
+                    <p>Subtotal: ₹{bill.subTotal}</p>
+                    <p>Tax: ₹{bill.tax}</p>
+                    <p>Service Charge: ₹{bill.serviceCharge}</p>
+                    <p className="font-bold mt-2">Total: ₹{bill.total}</p>
+                </div>
+            )}
         </div>
     )
 }
