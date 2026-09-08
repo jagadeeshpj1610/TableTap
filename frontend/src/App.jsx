@@ -10,6 +10,7 @@ function App() {
   const [menuItems, setMenuItems] = useState([])
   const [selectedCategory, setSelectedCategory] = useState("All")
   const [searchTerm, setSearchTerm] = useState("")
+  const [cartItems, setCartItems] = useState([])
   useEffect(() => {
     const fetchData = async () => {
       const data = await getMenu()
@@ -22,10 +23,25 @@ function App() {
     const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase());
     return matchesCategory && matchesSearch;
   });
+
+  const addToCart = (item) => {
+    const existingItem = cartItems.find((cardItem) => cardItem.menuItem === item._id)
+    if (existingItem) {
+      setCartItems(cartItems.map((cartItem) =>
+        cartItem.menuItem === item._id
+          ? { ...cartItem, quantity: cartItem.quantity + 1 }
+          : cartItem
+      ));
+    } else {
+      setCartItems([...cartItems, { menuItem: item._id, name: item.name, price: item.price, quantity: 1 }]);
+    }
+  }
+  console.log(cartItems);
+  
   return (
     <>
       <Header />
-       <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+      <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       <CategoryTabs selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
       <div className="grid grid-cols-3 md:grid-cols-4 gap-4 px-6 py-4">
         {filteredItems.map((item) => (
@@ -36,7 +52,7 @@ function App() {
             description={item.description}
             price={item.price}
             isVeg={item.isVeg}
-            onAdd={() => console.log("added", item.name)}
+            onAdd={() => addToCart(item)}
           />
         ))}
       </div>
