@@ -51,4 +51,4 @@ const getOrderBill = async (id) => {
     }
 }
 
-export { createOrder, getOrderById, getOrderBill }
+export { createOrder, getOrderById, getOrderBill, getAllOrders }
