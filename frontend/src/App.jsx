@@ -14,6 +14,7 @@ function App() {
   const [searchTerm, setSearchTerm] = useState("")
   const [cartItems, setCartItems] = useState([])
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [currentOrder, setCurrentOrder] = useState(null);
 
   const tableNumber = 5;
   useEffect(() => {
@@ -65,6 +66,9 @@ function App() {
 
   const data = await createOrder(tableNumber, orderItems);
   console.log("Order placed:", data);
+  setCurrentOrder(data)
+  setCartItems([])
+  setIsCartOpen(false)
 };
   return (
     <>
