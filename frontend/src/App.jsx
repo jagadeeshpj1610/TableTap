@@ -54,7 +54,7 @@ function App() {
   };
   return (
     <>
-     <Cart cartItems={cartItems} updateQuantity={updateQuantity} />
+     <Cart CartItems={cartItems} updateQuantity={updateQuantity} />
 
       <Header cartCount={totalCartItems} />
       <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
