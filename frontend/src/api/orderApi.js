@@ -20,6 +20,16 @@ const createOrder = async (tableNumber, orderItems) => {
     }
 }
 
+const getAllOrders = async () => {
+    try {
+        const response = await fetch(`${defaultApi}/orders`)
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("failed to fetch the orders :", error);
+    }
+}
+
 const getOrderById = async (id) => {
     try {
         const response = await fetch(`${defaultApi}/orders/${id}`);
