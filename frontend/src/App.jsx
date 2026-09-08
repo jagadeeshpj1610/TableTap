@@ -37,10 +37,11 @@ function App() {
     }
   }
   console.log(cartItems);
+  const totalCartItems = cartItems.reduce((total, item) => total + item.quantity, 0);
   
   return (
     <>
-      <Header />
+      <Header cartCount = {totalCartItems} />
       <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       <CategoryTabs selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
       <div className="grid grid-cols-3 md:grid-cols-4 gap-4 px-6 py-4">
