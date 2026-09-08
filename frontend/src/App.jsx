@@ -1,5 +1,6 @@
 import getMenu from "./api/menuApi";
 import { useState, useEffect } from "react";
+import Header from "./components/Header";
 // import FoodCard from './components/FoodCard'
 
 
@@ -26,7 +27,9 @@ function App() {
     //     />
     //   ))}
     // </div>
-    <></>
+    <>
+    <Header />
+    </>
   )
 }
 export default App;
