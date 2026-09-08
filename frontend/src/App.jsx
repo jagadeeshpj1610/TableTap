@@ -5,6 +5,7 @@ import FoodCard from './components/FoodCard'
 import CategoryTabs from "./components/CategoryTabs";
 import SearchBar from "./components/SearchBar";
 import Cart from "./components/Cart";
+import createOrder from "./api/orderApi"
 
 
 function App() {
@@ -55,10 +56,20 @@ function App() {
         .filter((cartItem) => cartItem.quantity > 0)
     );
   };
+  const placeOrder = async () => {
+  const orderItems = cartItems.map((item) => ({
+    menuItem: item.menuItem,
+    quantity: item.quantity,
+    price: item.price
+  }));
+
+  const data = await createOrder(tableNumber, orderItems);
+  console.log("Order placed:", data);
+};
   return (
     <>
       {isCartOpen && (
-        <Cart cartItems={cartItems} updateQuantity={updateQuantity} onClose={() => setIsCartOpen(false)} />
+        <Cart cartItems={cartItems} updateQuantity={updateQuantity} onClose={() => setIsCartOpen(false)} placeOrder={placeOrder} />
       )}
 
       <Header cartCount={totalCartItems} onCartClick={() => setIsCartOpen(true)} />

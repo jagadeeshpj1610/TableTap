@@ -1,6 +1,6 @@
 const defaultApi = "http://localhost:5000/api";
 
-const createOrder = async ({tableNumber, orderItems}) => {
+const createOrder = async (tableNumber, orderItems) => {
     try {
         const response = await fetch(`${defaultApi}/orders`, {
             method:"POST",
@@ -18,3 +18,5 @@ const createOrder = async ({tableNumber, orderItems}) => {
         
     }
 }
+
+export default createOrder

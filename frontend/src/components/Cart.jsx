@@ -1,4 +1,4 @@
-const Cart = ({ cartItems, updateQuantity, onClose }) => {
+const Cart = ({ cartItems, updateQuantity, onClose, placeOrder }) => {
     const totalPrice = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
 
     return (
@@ -25,11 +25,19 @@ const Cart = ({ cartItems, updateQuantity, onClose }) => {
             </div>
 
             <div className="p-6 border-t border-neutral-200 bg-white">
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center mb-4">
                     <h3 className="text-lg font-semibold text-[#1A1A1A]">Total</h3>
                     <h3 className="text-lg font-semibold text-[#1A1A1A]">₹{totalPrice}</h3>
                 </div>
+                <button
+                    onClick={placeOrder}
+                    className="w-full bg-[#8B2635] text-white py-3 rounded-full font-medium"
+                >
+                    Place Order
+                </button>
             </div>
         </div>
     )
 }
+
+export default Cart
