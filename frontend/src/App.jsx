@@ -13,6 +13,8 @@ function App() {
   const [searchTerm, setSearchTerm] = useState("")
   const [cartItems, setCartItems] = useState([])
   const [isCartOpen, setIsCartOpen] = useState(false);
+
+  const tableNumber = 5;
   useEffect(() => {
     const fetchData = async () => {
       const data = await getMenu()
