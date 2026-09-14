@@ -9,6 +9,7 @@ import { createOrder, getOrderById, getOrderBill } from "./api/orderApi"
 import OrderTracking from "./components/OrderTracking";
 import { createWaiterCall } from "./api/waiterApi";
 import KitchenDashboard from "./components/KitechenDashboard";
+import AdminMenuManagement from "./components/AdminMenuManagement";
 
 
 function App() {
@@ -87,6 +88,7 @@ function App() {
   };
   return (
     <>
+    <AdminMenuManagement />
     <KitchenDashboard />
       {currentOrder && <OrderTracking currentOrder={currentOrder} onClose={() => setCurrentOrder(null)} callWaiter={callWaiter} viewBill = {viewBill} bill = {bill} />}
 
