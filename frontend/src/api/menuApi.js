@@ -27,4 +27,18 @@ const createMenuItem = async (formData) => {
     }
 }
 
-export { getMenu, createMenuItem }
+const updateMenuItem = async (id, formData) => {
+    try {
+        const response = await fetch(`${defaultApi}/menu/${id}`,{
+            method:"PUT",
+            headers:{"content-type" : "application/json"},
+            body:JSON.stringify(formData)
+        })
+        const data = await response.json();
+        return data
+    } catch (error) {
+        console.error("failed to update the menu item : ", error);
+    }
+}
+
+export { getMenu, createMenuItem, updateMenuItem }
