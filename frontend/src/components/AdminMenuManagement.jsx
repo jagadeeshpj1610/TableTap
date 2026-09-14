@@ -13,7 +13,7 @@ const AdminMenuManagement = () => {
         isVeg: true,
         imageUrl: ""
     });
-
+    const [editingId, setEditingId] = useState(null);
     useEffect(() => {
         const fetchData = async () => {
             const data = await getMenu()
@@ -39,6 +39,19 @@ const AdminMenuManagement = () => {
         const deletedItem = await deleteMenuItem(id);
         setMenuItems(menuItems.filter((item) => item._id !== id))
     }
+
+    const handleEditClick = (item) => {
+        setFormData({
+            name: item.name,
+            price: item.price,
+            category: item.category,
+            description: item.description,
+            isAvailable: item.isAvailable,
+            isVeg: item.isVeg,
+            imageUrl: item.imageUrl
+        });
+        setEditingId(item._id);
+    };
 
     return (
         <div>
