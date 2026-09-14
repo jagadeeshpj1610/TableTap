@@ -45,7 +45,7 @@ const KitchenDashboard = () => {
                                 ))}
                             </div>
 
-                            <button className={`w-full mt-4 py-2.5 rounded-lg text-sm font-medium ${style.button}`}>
+                            <button onClick={handleUpdateOrderStatus(order._id, style.next)} className={`w-full mt-4 py-2.5 rounded-lg text-sm font-medium ${style.button}`}>
                                 {style.label}
                             </button>
                         </div>
