@@ -90,7 +90,6 @@ function App() {
     <>
     <AdminMenuManagement />
     <KitchenDashboard />
-    <AdminMenuManagement />
       {currentOrder && <OrderTracking currentOrder={currentOrder} onClose={() => setCurrentOrder(null)} callWaiter={callWaiter} viewBill = {viewBill} bill = {bill} />}
 
       {isCartOpen && (
