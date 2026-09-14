@@ -10,6 +10,9 @@ const KitchenDashboard = () => {
             setOrders(data)
         };
         fetchData()
+
+        const interval = setInterval(fetchData, 5000); 
+        return () => clearInterval(interval);
     }, [])
 
     const handleUpdateOrderStatus = async (orderId, newStatus) => {
