@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
-import getMenu from "../api/menuApi"
+import { getMenu, createMenuItem } from "../api/menuApi";
+
 
 const AdminMenuManagement = () => {
     const [menuItems, setMenuItems] = useState([])
@@ -20,6 +21,12 @@ const AdminMenuManagement = () => {
         };
         fetchData()
     }, [])
+
+    const handleAddItem = async () => {
+        const newItem = await createMenuItem(formData)
+        setMenuItems([...menuItems, newItem])
+        setFormData({name: "", price:"", category : "", description : "", isAvailable:true, isVeg:true, imageUrl:""})
+    }
 
     return (
         <div>
@@ -60,7 +67,7 @@ const AdminMenuManagement = () => {
                     onChange={(e) => setFormData({ ...formData, isVeg: e.target.checked })}
                 /> Veg
             </label>
-            <button>Add Item</button>
+            <button onClick={handleAddItem}>Add Item</button>
         </div>
     )
 }
