@@ -1,18 +1,22 @@
 import { useState, useEffect } from "react"
-import getMenu from "../api/menuApi"
+import { getAllOrders } from "../api/orderApi"
 
-const KitechenDashboard = () => {
-    const [menuItems, setMenuItems] = useState([])
+const KitchenDashboard = () => {
+    const [orders, setOrders] = useState([])
+
     useEffect(() => {
         const fetchData = async () => {
-            const data = await getMenu()
-            setMenuItems(data)
+            const data = await getAllOrders()
+            setOrders(data)
         };
         fetchData()
     }, [])
+
+    console.log(orders);
+
     return (
         <></>
     )
 }
 
-export default KitechenDashboard
+export default KitchenDashboard
