@@ -11,11 +11,19 @@ const KitchenDashboard = () => {
         };
         fetchData()
     }, [])
-
-    console.log(orders);
-
     return (
-        <></>
+        <div>
+            {orders.map((order) => (
+                <div key={order._id}>
+                    <h3>Table : {order.tableNumber}</h3>
+                    <p>Status : {order.status}</p>
+                    {order.items.map((item) => (
+                       <p key={item._id}>{item.menuItem ? item.menuItem.name : "Item unavailable"} x {item.quantity}</p>
+                    ))}
+                    <p>{order.specialInstructions}</p>
+                </div>
+            ))}
+        </div>
     )
 }
 
