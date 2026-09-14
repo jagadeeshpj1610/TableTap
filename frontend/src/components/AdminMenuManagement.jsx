@@ -22,11 +22,17 @@ const AdminMenuManagement = () => {
         fetchData()
     }, [])
 
-    const handleAddItem = async () => {
-        const newItem = await createMenuItem(formData)
-        setMenuItems([...menuItems, newItem])
-        setFormData({ name: "", price: "", category: "", description: "", isAvailable: true, isVeg: true, imageUrl: "" })
-    }
+    const handleSubmit = async () => {
+        if (editingId) {
+            const updatedItem = await updateMenuItem(editingId, formData);
+            setMenuItems(menuItems.map((item) => item._id === editingId ? updatedItem : item));
+            setEditingId(null);
+        } else {
+            const newItem = await createMenuItem(formData);
+            setMenuItems([...menuItems, newItem]);
+        }
+        setFormData({ name: "", price: "", category: "", description: "", isAvailable: true, isVeg: true, imageUrl: "" });
+    };
 
     const handleToggleAvailability = async (item) => {
         const updatedItem = await updateMenuItem(item._id, { ...item, isAvailable: !item.isAvailable })
@@ -92,7 +98,7 @@ const AdminMenuManagement = () => {
                     onChange={(e) => setFormData({ ...formData, isVeg: e.target.checked })}
                 /> Veg
             </label>
-            <button onClick={handleAddItem}>Add Item</button>
+            <button onClick={handleSubmit}>{editingId ? "Update Item" : "Add Item"}</button>
             <div>
                 {menuItems.map((item) => (
                     <div key={item._id}>
@@ -103,6 +109,7 @@ const AdminMenuManagement = () => {
                             {item.isAvailable ? "Mark Unavailable" : "Mark Available"}
                         </button>
                         <button onClick={() => handleDeleteItem(item._id)}>Delete</button>
+                        <button onClick={() => handleEditClick(item)}>Edit</button>
                     </div>
                 ))}
             </div>
