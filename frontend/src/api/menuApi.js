@@ -41,4 +41,17 @@ const updateMenuItem = async (id, formData) => {
     }
 }
 
-export { getMenu, createMenuItem, updateMenuItem }
+
+const deleteMenuItem = async (id) => {
+    try {
+        const response = await fetch(`${defaultApi}/menu/${id}`, {
+            method: "DELETE"
+        });
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("failed to delete the item : ", error);
+    }
+};
+
+export { getMenu, createMenuItem, updateMenuItem, deleteMenuItem }
