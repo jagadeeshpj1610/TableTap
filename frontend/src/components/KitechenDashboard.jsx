@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { getAllOrders } from "../api/orderApi"
+import { getAllOrders, updateOrderStatus } from "../api/orderApi"
 
 const KitchenDashboard = () => {
     const [orders, setOrders] = useState([])
@@ -11,6 +11,12 @@ const KitchenDashboard = () => {
         };
         fetchData()
     }, [])
+
+    const handleUpdateOrderStatus = async (orderId , newStatus) => {
+        const updatedOrder = await updateOrderStatus(orderId, newStatus);
+        setOrders(orders.map((order) => order._id === orderId ? updatedOrder : order))
+    }
+ 
     const statusStyles = {
         pending: { border: "border-amber-500", button: "bg-amber-500/10 text-amber-400 border border-amber-500/30", label: "Accept Order" },
         preparing: { border: "border-blue-500", button: "bg-blue-500/10 text-blue-400 border border-blue-500/30", label: "Mark Ready" },
