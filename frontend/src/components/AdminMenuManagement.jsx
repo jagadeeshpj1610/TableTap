@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { getMenu, createMenuItem } from "../api/menuApi";
+import { getMenu, createMenuItem, updateMenuItem } from "../api/menuApi";
 
 
 const AdminMenuManagement = () => {
@@ -25,7 +25,14 @@ const AdminMenuManagement = () => {
     const handleAddItem = async () => {
         const newItem = await createMenuItem(formData)
         setMenuItems([...menuItems, newItem])
-        setFormData({name: "", price:"", category : "", description : "", isAvailable:true, isVeg:true, imageUrl:""})
+        setFormData({ name: "", price: "", category: "", description: "", isAvailable: true, isVeg: true, imageUrl: "" })
+    }
+
+    const handleToggleAvailability = async (item) => {
+        const updatedItem = await updateMenuItem(item._id, { ...item, isAvailable: !item.isAvailable })
+        setMenuItems(menuItems.map((menuItem =>
+            menuItem._id === item._id ? updatedItem : menuItem
+        )))
     }
 
     return (
@@ -68,6 +75,18 @@ const AdminMenuManagement = () => {
                 /> Veg
             </label>
             <button onClick={handleAddItem}>Add Item</button>
+            <div>
+                {menuItems.map((item) => (
+                    <div key={item._id}>
+                        <p>{item.name} — ₹{item.price}</p>
+                        <p>{item.category}</p>
+                        <p>{item.isAvailable ? "Available" : "Unavailable"}</p>
+                        <button onClick={() => handleToggleAvailability(item)}>
+                            {item.isAvailable ? "Mark Unavailable" : "Mark Available"}
+                        </button>
+                    </div>
+                ))}
+            </div>
         </div>
     )
 }
