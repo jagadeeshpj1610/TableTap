@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { getMenu, createMenuItem, updateMenuItem } from "../api/menuApi";
+import { getMenu, createMenuItem, updateMenuItem, deleteMenuItem } from "../api/menuApi";
 
 
 const AdminMenuManagement = () => {
@@ -33,6 +33,11 @@ const AdminMenuManagement = () => {
         setMenuItems(menuItems.map((menuItem =>
             menuItem._id === item._id ? updatedItem : menuItem
         )))
+    }
+
+    const handleDeleteItem = async (id) => {
+        const deletedItem = await deleteMenuItem(id);
+        setMenuItems(menuItems.filter((item) => item._id !== id))
     }
 
     return (
@@ -84,6 +89,7 @@ const AdminMenuManagement = () => {
                         <button onClick={() => handleToggleAvailability(item)}>
                             {item.isAvailable ? "Mark Unavailable" : "Mark Available"}
                         </button>
+                        <button onClick={() => handleDeleteItem(item._id)}>Delete</button>
                     </div>
                 ))}
             </div>
