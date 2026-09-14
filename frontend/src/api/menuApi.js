@@ -12,4 +12,19 @@ const getMenu = async () => {
     }
 }
 
-export default getMenu
+const createMenuItem = async (formData) => {
+    try {
+        const response = await fetch(`${defaultApi}/menu`, {
+            method: "POST",
+            headers: { "content-type" : "application/json"},
+            body: JSON.stringify(formData)
+        })
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error("failed to create the menu : ", error);
+
+    }
+}
+
+export { getMenu, createMenuItem }
