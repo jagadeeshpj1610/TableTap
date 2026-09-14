@@ -17,11 +17,11 @@ const KitchenDashboard = () => {
         setOrders(orders.map((order) => order._id === orderId ? updatedOrder : order))
     }
  
-    const statusStyles = {
-        pending: { border: "border-amber-500", button: "bg-amber-500/10 text-amber-400 border border-amber-500/30", label: "Accept Order" },
-        preparing: { border: "border-blue-500", button: "bg-blue-500/10 text-blue-400 border border-blue-500/30", label: "Mark Ready" },
-        ready: { border: "border-green-500", button: "bg-green-500/10 text-green-400 border border-green-500/30", label: "Served" },
-    };
+  const statusStyles = {
+    pending: { border: "border-amber-500", button: "bg-amber-500/10 text-amber-400 border border-amber-500/30", label: "Accept Order", next: "preparing" },
+    preparing: { border: "border-blue-500", button: "bg-blue-500/10 text-blue-400 border border-blue-500/30", label: "Mark Ready", next: "ready" },
+    ready: { border: "border-green-500", button: "bg-green-500/10 text-green-400 border border-green-500/30", label: "Served", next: "served" },
+};
 
     return (
         <div className="min-h-screen bg-[#111417] p-6">
