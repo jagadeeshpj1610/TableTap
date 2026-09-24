@@ -19,4 +19,14 @@ const createWaiterCall = async (tableNumber) => {
     }
 }
 
-export {createWaiterCall}
+const getAllWaiterCalls = async() => {
+    try {
+        const response = await fetch(`${defaultApi}/waiter-call`)
+        const data = await response.json();
+        return data
+    } catch (error) {
+        console.error("failed to failed the wauter-calls", error);
+    }
+}
+
+export {createWaiterCall, getAllWaiterCalls}
