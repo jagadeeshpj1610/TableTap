@@ -5,6 +5,7 @@ import AdminLayout from "./components/AdminLayout";
 import AdminMenuManagement from "./components/AdminMenuManagement";
 import AdminOrderManagement from "./components/AdminOrderManagement";
 import AdminOverview from "./components/AdminOveriew";
+import AdminWaiterCalls from "./components/AdminWaiterCalls";
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path="overview" element={<AdminOverview />} />
         <Route path="orders" element={<AdminOrderManagement />} />
         <Route path="menu" element={<AdminMenuManagement />} />
+        <Route path="waiter-calls" element={<AdminWaiterCalls />} />
       </Route>
     </Routes>
   );
