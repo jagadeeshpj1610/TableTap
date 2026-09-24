@@ -8,6 +8,10 @@ import Cart from "./Cart";
 import { createOrder, getOrderById, getOrderBill } from "../api/orderApi"
 import OrderTracking from "./OrderTracking";
 import { createWaiterCall } from "../api/waiterApi";
+import { useSearchParams } from "react-router-dom"; 
+
+const [searchParams] = useSearchParams();
+const tableNumber = searchParams.get("table") || "1";
 
 
 
@@ -20,7 +24,7 @@ function CustomerApp() {
   const [currentOrder, setCurrentOrder] = useState(null);
   const [bill, setBill] = useState(null);
 
-  const tableNumber = 5;
+
   useEffect(() => {
     const fetchData = async () => {
       const data = await getMenu()
