@@ -1,7 +1,7 @@
 
 import { FiShoppingCart } from "react-icons/fi";
 
-const Header = ({ cartCount, onCartClick }) => {
+const Header = ({ cartCount, onCartClick , tableNumber}) => {
     return (
         <div className="bg-[#FAF7F2] p-6 flex justify-between items-center">
             <div>
@@ -17,7 +17,7 @@ const Header = ({ cartCount, onCartClick }) => {
                         </span>
                     )}
                 </div>
-                <span className="bg-[#8B2635] text-white px-4 py-1 rounded-full text-sm font-medium">Table 5</span>
+                <span className="bg-[#8B2635] text-white px-4 py-1 rounded-full text-sm font-medium">Table {tableNumber}</span>
             </div>
         </div>
     )
