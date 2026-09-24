@@ -4,7 +4,8 @@ const links = [
     { to: "/admin/overview", label: "Overview" },
     { to: "/admin/orders", label: "Orders" },
     { to: "/admin/menu", label: "Menu" },
-    {to: "/admin/waiter-calls", label : "Waiter-calls" },
+    {to: "/admin/waiter-calls", label : "Waiter Calls" },
+    { to: "/admin/tableManagement", label: "Tables & QR" },
 ]
 
 const AdminLayout = () => {

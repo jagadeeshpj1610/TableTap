@@ -6,6 +6,7 @@ import AdminMenuManagement from "./components/AdminMenuManagement";
 import AdminOrderManagement from "./components/AdminOrderManagement";
 import AdminOverview from "./components/AdminOveriew";
 import AdminWaiterCalls from "./components/AdminWaiterCalls";
+import AdminTableManagement from "./components/AdminTableManagement";
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
         <Route path="orders" element={<AdminOrderManagement />} />
         <Route path="menu" element={<AdminMenuManagement />} />
         <Route path="waiter-calls" element={<AdminWaiterCalls />} />
+        <Route path="tableManagement" element={<AdminTableManagement />} />
       </Route>
     </Routes>
   );
