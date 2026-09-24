@@ -60,7 +60,7 @@ const AdminMenuManagement = () => {
     };
 
     return (
-        <div className="min-h-screen bg-[#FAF7F2] p-6">
+        <div className="p-6">
             <h1 className="font-serif text-2xl font-bold text-[#1A1A1A] mb-6">Menu Management</h1>
 
             <div className="bg-white rounded-xl p-6 mb-8 shadow-sm max-w-2xl">
