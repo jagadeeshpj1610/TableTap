@@ -29,4 +29,16 @@ const getAllWaiterCalls = async() => {
     }
 }
 
-export {createWaiterCall, getAllWaiterCalls}
+const resolveWaiterCall = async(id) => {
+    try {
+        const response = await fetch(`${defaultApi}/waiter-call/${id}/resolve`,{
+            method : "PATCH"
+        })
+        const data = await response.json();
+        return data
+    } catch (error) {
+        console.error("failed to resolve the waiter call", error);
+    }
+}
+
+export {createWaiterCall, getAllWaiterCalls, resolveWaiterCall}
