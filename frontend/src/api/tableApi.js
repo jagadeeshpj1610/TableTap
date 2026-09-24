@@ -1,4 +1,4 @@
-const defaultApi = "http://localhost:5000/api";
+const defaultApi = import.meta.env.VITE_API_URL;
 
 const getAllTables = async () => {
     try {
