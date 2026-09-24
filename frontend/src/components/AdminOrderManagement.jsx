@@ -3,6 +3,13 @@ import { getAllOrders, updateOrderStatus, getOrderBill } from "../api/orderApi"
 
 const TABS = ["all", "pending", "preparing", "ready", "served"]
 
+const statusStyles = {
+    pending: "bg-amber-50 text-amber-700 ring-amber-200",
+    preparing: "bg-blue-50 text-blue-700 ring-blue-200",
+    ready: "bg-green-50 text-[#2D5F3E] ring-green-200",
+    served: "bg-stone-100 text-stone-500 ring-stone-200",
+}
+
 const AdminOrderManagement = () => {
     const [orders, setOrders] = useState([])
     const [loading, setLoading] = useState(true)
