@@ -7,6 +7,7 @@ import AdminOrderManagement from "./components/AdminOrderManagement";
 import AdminOverview from "./components/AdminOveriew";
 import AdminWaiterCalls from "./components/AdminWaiterCalls";
 import AdminTableManagement from "./components/AdminTableManagement";
+import WaiterDashboard from "./components/WaiterDashboard";
 
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
     <Routes>
       <Route path="/" element={<CustomerApp />} />
       <Route path="/kitchen" element={<KitchenDashboard />} />
+      <Route path="/waiter" element={<WaiterDashboard />} />
 
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<Navigate to="overview" replace />} />
