@@ -9,12 +9,12 @@ const FoodCard = ({ image, name, description, price, isVeg, onAdd }) => {
                     alt={name}
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                 />
-                <span
-                    className={`absolute top-2 left-2 px-2 py-0.5 rounded-full text-[10px] font-[Poppins] font-bold text-white shadow-sm ${isVeg ? "bg-green-600" : "bg-red-700"
+                <div
+                    className={`absolute top-2 left-2 w-5 h-5 rounded-[3px] border-[1.5px] flex items-center justify-center bg-white shadow-sm ${isVeg ? "border-green-600" : "border-red-700"
                         }`}
                 >
-                    {isVeg ? "Veg" : "Non-Veg"}
-                </span>
+                    <div className={`w-2.5 h-2.5 rounded-full ${isVeg ? "bg-green-600" : "bg-red-700"}`} />
+                </div>
             </div>
             <div className="p-2.5 sm:p-3 flex flex-col gap-0.5 flex-1">
                 <h3 className="font-[Poppins] font-bold text-sm sm:text-base text-[#1A1A1A] leading-tight line-clamp-1">
