@@ -1,10 +1,24 @@
 import { useState, useEffect } from "react"
 import { getAllWaiterCalls, resolveWaiterCall } from "../api/waiterApi"
 import { getAllTables } from "../api/tableApi"
+import { getAllOrders } from "../api/orderApi"
 
 const WaiterDashboard = () => {
     const [calls, setCalls] = useState([])
     const [tables, setTables] = useState([])
+    const [orders, setOrders] = useState([])
+
+    useEffect(() => {
+        const fetchOrders = async () => {
+            const data = await getAllOrders();
+            setOrders(data);
+        };
+        fetchOrders();
+        const interval = setInterval(fetchOrders, 5000);
+        return () => clearInterval(interval);
+    }, [])
+
+    const activeOrders = orders.filter((order) => order.status !== "served");
 
     useEffect(() => {
         const fetchTables = async () => {
@@ -69,6 +83,24 @@ const WaiterDashboard = () => {
                         </div>
                     ))}
                 </div>
+            </section>
+            <section>
+                <h2 className="text-lg font-medium text-[#1A1A1A] mb-3">Active Orders</h2>
+                {activeOrders.length === 0 ? (
+                    <p className="text-[#767676] text-sm">No active orders.</p>
+                ) : (
+                    <div className="grid grid-cols-2 gap-3">
+                        {activeOrders.map((order) => (
+                            <div key={order._id} className="bg-white rounded-xl p-4 shadow-sm">
+                                <div className="flex justify-between items-center mb-2">
+                                    <p className="font-medium text-[#1A1A1A]">Table {order.tableNumber}</p>
+                                    <span className="text-xs px-2 py-1 rounded-full bg-blue-100 text-blue-700 capitalize">{order.status}</span>
+                                </div>
+                                <p className="text-sm text-[#767676]">{order.items.length} items • ₹{order.totalAmount}</p>
+                            </div>
+                        ))}
+                    </div>
+                )}
             </section>
         </div>
     )
