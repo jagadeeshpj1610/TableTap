@@ -8,6 +8,7 @@ const menuRoutes = require('./routes/menuRoutes')
 const orderRoutes = require('./routes/orderRoutes')
 const tableRoutes = require('./routes/tableRoutes')
 const waiterCallRoutes = require('./routes/waiterCallRoutes')
+const paymentRoutes = require('./routes/paymentRoutes')
 
 const app = express()
 const PORT = process.env.PORT
@@ -22,6 +23,7 @@ app.use('/api/menu', menuRoutes)
 app.use('/api/orders', orderRoutes);
 app.use('/api/tables', tableRoutes);
 app.use('/api/waiter-call', waiterCallRoutes)
+app.use('/api/payments', paymentRoutes);
 
 console.log(process.env.PORT);
 
