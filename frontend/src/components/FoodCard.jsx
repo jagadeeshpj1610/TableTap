@@ -2,32 +2,38 @@ import { FiPlus } from "react-icons/fi"
 
 const FoodCard = ({ image, name, description, price, isVeg, onAdd }) => {
     return (
-        <div className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow overflow-hidden w-full max-w-sm border border-stone-100">
-            <div className="relative">
-                <img src={image} alt={name} className="w-full h-44 object-cover" />
-                <div
-                    className={`absolute top-3 left-3 w-4 h-4 rounded-sm border-2 flex items-center justify-center ${isVeg ? "border-green-600 bg-white" : "border-red-700 bg-white"
+        <div className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden w-full border border-stone-100 flex flex-col">
+            <div className="relative aspect-[16/10] w-full overflow-hidden">
+                <img
+                    src={image}
+                    alt={name}
+                    className="absolute inset-0 w-full h-full object-cover"
+                />
+                <span
+                    className={`absolute top-2 left-2 px-2 py-0.5 rounded-full text-[10px] font-[Poppins] font-bold text-white shadow-sm ${isVeg ? "bg-green-600" : "bg-red-700"
                         }`}
                 >
-                    <div className={`w-2 h-2 rounded-full ${isVeg ? "bg-green-600" : "bg-red-700"}`} />
-                </div>
+                    {isVeg ? "Veg" : "Non-Veg"}
+                </span>
             </div>
-
-            <div className="p-4 flex flex-col gap-1.5">
-                <h3 className="font-[Fraunces] text-lg font-semibold text-[#1A1A1A] leading-snug">
+            <div className="p-2.5 sm:p-3 flex flex-col gap-0.5 flex-1">
+                <h3 className="font-[Poppins] font-bold text-sm sm:text-base text-[#1A1A1A] leading-tight line-clamp-1">
                     {name}
                 </h3>
-                <p className="text-sm text-[#767676] leading-relaxed line-clamp-2 h-10">
+                <p className="font-[Poppins] text-xs text-[#767676] leading-snug line-clamp-1">
                     {description}
                 </p>
-                <div className="flex items-center mt-2">
-                    <span className="text-base font-semibold text-[#1A1A1A]">₹{price}</span>
+                <div className="flex items-center mt-auto pt-1.5">
+                    <span className="font-[Poppins] font-bold text-base sm:text-lg text-[#1A1A1A]">
+                        ₹{price}
+                    </span>
                     <button
                         onClick={onAdd}
                         aria-label={`Add ${name}`}
-                        className="ml-auto w-9 h-9 shrink-0 flex items-center justify-center rounded-full bg-[#2D5F3E] hover:bg-[#244c32] text-white cursor-pointer transition-all duration-200 hover:scale-110 hover:rotate-90 active:scale-90"
+                        className="ml-auto w-9 h-9 sm:w-10 sm:h-10 shrink-0 flex items-center justify-center rounded-full bg-[#2D5F3E] hover:bg-[#244c32] text-white cursor-pointer transition-all duration-200 hover:scale-110 hover:rotate-90 active:scale-90"
                     >
-                        <FiPlus size={18} />
+                        <FiPlus size={18} className="sm:hidden" />
+                        <FiPlus size={20} className="hidden sm:block" />
                     </button>
                 </div>
             </div>
