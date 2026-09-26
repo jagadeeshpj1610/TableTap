@@ -9,7 +9,7 @@ import { createOrder, getOrderById, getOrderBill } from "../api/orderApi"
 import OrderTracking from "./OrderTracking";
 import { createWaiterCall } from "../api/waiterApi";
 import { useSearchParams } from "react-router-dom";
-
+import { FiSearch } from "react-icons/fi"
 
 
 
@@ -99,24 +99,40 @@ function CustomerApp() {
                 <Cart cartItems={cartItems} updateQuantity={updateQuantity} onClose={() => setIsCartOpen(false)} placeOrder={placeOrder} />
             )}
 
-            <Header cartCount={totalCartItems} onCartClick={() => setIsCartOpen(true)}  tableNumber={tableNumber} />
+            <Header cartCount={totalCartItems} onCartClick={() => setIsCartOpen(true)} tableNumber={tableNumber} />
             <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
             <CategoryTabs selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
             {console.log(cartItems)}
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 px-4 sm:px-6 py-4">
-                {filteredItems.map((item) => (
-                    <FoodCard
-                        key={item._id}
-                        image={item.imageUrl}
-                        name={item.name}
-                        description={item.description}
-                        price={item.price}
-                        isVeg={item.isVeg}
-                        onAdd={() => addToCart(item)}
-                    />
-                ))}
-            </div>
+            {filteredItems.length === 0 ? (
+                <div className="flex flex-col items-center justify-center text-center px-6 py-16">
+                    <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center mb-4 shadow-sm">
+                        <FiSearch className="text-neutral-400" size={28} />
+                    </div>
+                    <h3 className="font-[Poppins] font-semibold text-lg text-[#1A1A1A] mb-1">
+                        {searchTerm ? "No dishes found" : "Nothing here yet"}
+                    </h3>
+                    <p className="font-[Poppins] text-sm text-[#767676] max-w-xs">
+                        {searchTerm
+                            ? `We couldn't find anything matching "${searchTerm}".`
+                            : `No items available in ${selectedCategory} right now.`}
+                    </p>
+                </div>
+            ) : (
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 px-4 sm:px-6 py-4">
+                    {filteredItems.map((item) => (
+                        <FoodCard
+                            key={item._id}
+                            image={item.imageUrl}
+                            name={item.name}
+                            description={item.description}
+                            price={item.price}
+                            isVeg={item.isVeg}
+                            onAdd={() => addToCart(item)}
+                        />
+                    ))}
+                </div>
+            )}
         </>
     )
 }
