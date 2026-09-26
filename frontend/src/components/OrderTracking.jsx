@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { getOrderById } from "../api/orderApi";
+import PaymentSection from "./PaymentSection";
 
 const OrderTracking = ({ currentOrder, onClose, callWaiter, viewBill, bill }) => {
     const [liveOrder, setLiveOrder] = useState(currentOrder);
@@ -58,6 +59,7 @@ const OrderTracking = ({ currentOrder, onClose, callWaiter, viewBill, bill }) =>
                     <p className="font-bold mt-2">Total: ₹{bill.total}</p>
                 </div>
             )}
+            <PaymentSection currentOrder={currentOrder} />
         </div>
     )
 }

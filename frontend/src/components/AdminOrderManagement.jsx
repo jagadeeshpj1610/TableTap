@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { getAllOrders, updateOrderStatus, getOrderBill } from "../api/orderApi"
+import { getAllPayments, updatePaymentStatus } from "../api/paymentApi"
 
 const TABS = ["all", "pending", "preparing", "ready", "served"]
 
@@ -16,6 +17,8 @@ const AdminOrderManagement = () => {
     const [error, setError] = useState("")
     const [activeTab, setActiveTab] = useState("all")
     const [bills, setBills] = useState({})
+    const [payments, setPayments] = useState([])
+
 
     const fetchOrders = async () => {
         try {
@@ -33,6 +36,22 @@ const AdminOrderManagement = () => {
     useEffect(() => {
         fetchOrders()
     }, [])
+
+
+    useEffect(() => {
+        const fetchPayments = async () => {
+            const data = await getAllPayments();
+            setPayments(data);
+        };
+        fetchPayments();
+    }, []);
+
+    const pendingPayments = payments.filter((p) => p.status === "pending");
+
+    const handleConfirmPayment = async (id) => {
+        const updated = await updatePaymentStatus(id, "completed");
+        setPayments(payments.map((p) => p._id === id ? updated : p));
+    };
 
     const handleStatusChange = async (id, status) => {
         try {
@@ -71,7 +90,26 @@ const AdminOrderManagement = () => {
         tab === "all" ? orders.length : orders.filter((o) => o.status === tab).length
 
     return (
+
         <div className="p-4 sm:p-6 max-w-6xl mx-auto">
+            {pendingPayments.length > 0 && (
+                <div className="mb-6">
+                    <h2 className="text-lg font-medium text-[#1A1A1A] mb-3">Pending Payment Confirmations</h2>
+                    <div className="space-y-2">
+                        {pendingPayments.map((payment) => (
+                            <div key={payment._id} className="bg-white rounded-xl p-4 flex justify-between items-center shadow-sm border-l-4 border-amber-500">
+                                <div>
+                                    <p className="font-medium text-[#1A1A1A]">Table {payment.orderId?.tableNumber} — ₹{payment.amount}</p>
+                                    <p className="text-xs text-[#767676] capitalize">{payment.paymentMethod}</p>
+                                </div>
+                                <button onClick={() => handleConfirmPayment(payment._id)} className="bg-[#2D5F3E] text-white px-4 py-2 rounded-full text-sm font-medium">
+                                    Confirm Received
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
             <div className="flex items-center justify-between mb-4">
                 <h1 className="font-[Fraunces] text-2xl font-semibold text-[#1A1A1A]">
                     Orders
@@ -90,8 +128,8 @@ const AdminOrderManagement = () => {
                         key={tab}
                         onClick={() => setActiveTab(tab)}
                         className={`shrink-0 px-4 py-1.5 rounded-full text-sm capitalize border ${activeTab === tab
-                                ? "bg-[#8B2635] border-[#8B2635] text-white"
-                                : "bg-white border-stone-300 text-[#1A1A1A] hover:bg-stone-50"
+                            ? "bg-[#8B2635] border-[#8B2635] text-white"
+                            : "bg-white border-stone-300 text-[#1A1A1A] hover:bg-stone-50"
                             }`}
                     >
                         {tab} ({countFor(tab)})
@@ -182,8 +220,8 @@ const AdminOrderManagement = () => {
                                 <button
                                     onClick={() => handleToggleBill(order._id)}
                                     className={`shrink-0 px-4 py-2 text-sm rounded-lg border ${bills[order._id]
-                                            ? "bg-white border-[#2D5F3E] text-[#2D5F3E]"
-                                            : "bg-[#2D5F3E] border-[#2D5F3E] text-white hover:bg-[#244c32]"
+                                        ? "bg-white border-[#2D5F3E] text-[#2D5F3E]"
+                                        : "bg-[#2D5F3E] border-[#2D5F3E] text-white hover:bg-[#244c32]"
                                         }`}
                                 >
                                     {bills[order._id] ? "Hide Bill" : "View Bill"}

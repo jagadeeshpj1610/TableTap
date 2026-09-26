@@ -1,4 +1,4 @@
-const defaultApi = "import.meta.env.VITE_API_URL";
+const defaultApi = "http://localhost:5000/api";
 
 const createPayment = async (orderId, amount, paymentMethod) => {
     try {
@@ -28,6 +28,17 @@ const updatePaymentStatus = async (paymentId, status) => {
     }
 };
 
+const getAllPayments = async () => {
+    try {
+        const response = await fetch(`${defaultApi}/payments`);
+        console.log("Fetching payments..., response:", response);
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("failed to fetch payments:", error);
+    }
+};
 
 
-export { createPayment, updatePaymentStatus };
+
+export { createPayment, updatePaymentStatus, getAllPayments };

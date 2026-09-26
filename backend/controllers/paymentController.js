@@ -22,4 +22,13 @@ const updatePaymentStatus = async (req, res) => {
     }
 };
 
-module.exports = { createPayment, updatePaymentStatus };
+const getAllPayments = async (req, res) => {
+    try {
+        const payments = await Payment.find();
+        res.json(payments);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+module.exports = { createPayment, updatePaymentStatus, getAllPayments };
