@@ -2,12 +2,12 @@ import { FiPlus } from "react-icons/fi"
 
 const FoodCard = ({ image, name, description, price, isVeg, onAdd }) => {
     return (
-        <div className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden w-full border border-stone-100 flex flex-col">
+        <div className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.01] overflow-hidden w-full border border-stone-100 flex flex-col">
             <div className="relative aspect-[16/10] w-full overflow-hidden">
                 <img
                     src={image}
                     alt={name}
-                    className="absolute inset-0 w-full h-full object-cover"
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                 />
                 <span
                     className={`absolute top-2 left-2 px-2 py-0.5 rounded-full text-[10px] font-[Poppins] font-bold text-white shadow-sm ${isVeg ? "bg-green-600" : "bg-red-700"
