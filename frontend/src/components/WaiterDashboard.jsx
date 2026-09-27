@@ -5,6 +5,7 @@ import { useOrders } from "../hooks/useOrders"
 import WaiterCallCard from "./WaiterCallCard";
 import { useState } from "react";
 import ConfirmLogoutModal from "./ConfirmLogoutModal"
+import { logout } from "../utils/auth"
 
 const WaiterDashboard = () => {
     const { calls, loading: callsLoading, resolveCall } = useWaiterCalls(5000);
