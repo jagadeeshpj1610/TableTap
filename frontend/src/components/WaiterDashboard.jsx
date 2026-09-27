@@ -10,10 +10,20 @@ const WaiterDashboard = () => {
     const [tables, setTables] = useState([])
     const [orders, setOrders] = useState([])
 
+    const [callsLoading, setCallsLoading] = useState(true)
+    const [tablesLoading, setTablesLoading] = useState(true)
+    const [ordersLoading, setOrdersLoading] = useState(true)
+
     useEffect(() => {
         const fetchOrders = async () => {
-            const data = await getAllOrders();
-            setOrders(data);
+            try {
+                const data = await getAllOrders();
+                setOrders(data);
+            } catch (err) {
+                toast.error("Failed to load orders");
+            } finally {
+                setOrdersLoading(false);
+            }
         };
         fetchOrders();
         const interval = setInterval(fetchOrders, 5000);
@@ -24,16 +34,28 @@ const WaiterDashboard = () => {
 
     useEffect(() => {
         const fetchTables = async () => {
-            const data = await getAllTables();
-            setTables(data);
+            try {
+                const data = await getAllTables();
+                setTables(data);
+            } catch (err) {
+                toast.error("Failed to load tables");
+            } finally {
+                setTablesLoading(false);
+            }
         };
         fetchTables();
     }, [])
 
     useEffect(() => {
         const fetchData = async () => {
-            const data = await getAllWaiterCalls();
-            setCalls(data);
+            try {
+                const data = await getAllWaiterCalls();
+                setCalls(data);
+            } catch (err) {
+                toast.error("Failed to load waiter calls");
+            } finally {
+                setCallsLoading(false);
+            }
         };
         fetchData();
         const interval = setInterval(fetchData, 5000);
@@ -88,7 +110,20 @@ const WaiterDashboard = () => {
                         <FiBell className="text-neutral-400" size={16} />
                         <h2 className="font-[Poppins] font-bold text-lg text-white">Waiter Calls</h2>
                     </div>
-                    {pendingCalls.length === 0 ? (
+                    {callsLoading ? (
+                        <div className="space-y-3">
+                            {Array.from({ length: 2 }).map((_, i) => (
+                                <div key={i} className="bg-[#2A2E32] rounded-2xl p-4 flex items-center gap-4 animate-pulse">
+                                    <div className="w-11 h-11 rounded-xl bg-neutral-700 shrink-0" />
+                                    <div className="space-y-2 flex-1">
+                                        <div className="h-4 w-40 bg-neutral-700 rounded" />
+                                        <div className="h-3 w-20 bg-neutral-700 rounded" />
+                                    </div>
+                                    <div className="h-9 w-24 bg-neutral-700 rounded-full shrink-0" />
+                                </div>
+                            ))}
+                        </div>
+                    ) : pendingCalls.length === 0 ? (
                         <div className="bg-[#2A2E32] rounded-2xl py-10 text-center shadow-sm">
                             <p className="font-[Poppins] text-neutral-400 text-sm">No pending calls.</p>
                         </div>
@@ -132,27 +167,38 @@ const WaiterDashboard = () => {
                         <FiGrid className="text-neutral-400" size={16} />
                         <h2 className="font-[Poppins] font-bold text-lg text-white">Tables</h2>
                     </div>
-                    <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
-                        {tables.map((table) => (
-                            <div
-                                key={table._id}
-                                className="bg-[#2A2E32] rounded-2xl p-4 text-center shadow-sm"
-                            >
-                                <p className="font-[Poppins] text-xl font-extrabold text-white">
-                                    {table.tableNumber}
-                                </p>
-                                <span
-                                    className={`font-[Poppins] mt-1.5 inline-block px-2.5 py-1 rounded-full text-xs font-semibold capitalize ring-1 ring-inset ${
-                                        table.status === "available"
-                                            ? "bg-[#2D5F3E]/15 text-emerald-300 ring-[#2D5F3E]/40"
-                                            : "bg-amber-500/10 text-amber-400 ring-amber-500/30"
-                                    }`}
+                    {tablesLoading ? (
+                        <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
+                            {Array.from({ length: 6 }).map((_, i) => (
+                                <div key={i} className="bg-[#2A2E32] rounded-2xl p-4 text-center animate-pulse">
+                                    <div className="h-6 w-8 bg-neutral-700 rounded mx-auto mb-2" />
+                                    <div className="h-5 w-16 bg-neutral-700 rounded-full mx-auto" />
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
+                            {tables.map((table) => (
+                                <div
+                                    key={table._id}
+                                    className="bg-[#2A2E32] rounded-2xl p-4 text-center shadow-sm"
                                 >
-                                    {table.status}
-                                </span>
-                            </div>
-                        ))}
-                    </div>
+                                    <p className="font-[Poppins] text-xl font-extrabold text-white">
+                                        {table.tableNumber}
+                                    </p>
+                                    <span
+                                        className={`font-[Poppins] mt-1.5 inline-block px-2.5 py-1 rounded-full text-xs font-semibold capitalize ring-1 ring-inset ${
+                                            table.status === "available"
+                                                ? "bg-[#2D5F3E]/15 text-emerald-300 ring-[#2D5F3E]/40"
+                                                : "bg-amber-500/10 text-amber-400 ring-amber-500/30"
+                                        }`}
+                                    >
+                                        {table.status}
+                                    </span>
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </section>
 
                 <section>
@@ -160,7 +206,19 @@ const WaiterDashboard = () => {
                         <FiClipboard className="text-neutral-400" size={16} />
                         <h2 className="font-[Poppins] font-bold text-lg text-white">Active Orders</h2>
                     </div>
-                    {activeOrders.length === 0 ? (
+                    {ordersLoading ? (
+                        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                            {Array.from({ length: 3 }).map((_, i) => (
+                                <div key={i} className="bg-[#2A2E32] rounded-2xl p-4 animate-pulse">
+                                    <div className="flex justify-between items-center mb-3">
+                                        <div className="h-4 w-16 bg-neutral-700 rounded" />
+                                        <div className="h-5 w-16 bg-neutral-700 rounded-full" />
+                                    </div>
+                                    <div className="h-3 w-24 bg-neutral-700 rounded" />
+                                </div>
+                            ))}
+                        </div>
+                    ) : activeOrders.length === 0 ? (
                         <div className="bg-[#2A2E32] rounded-2xl py-10 text-center shadow-sm">
                             <p className="font-[Poppins] text-neutral-400 text-sm">No active orders.</p>
                         </div>
