@@ -1,34 +1,16 @@
 import { useState, useEffect } from "react"
-import { getAllWaiterCalls, resolveWaiterCall } from "../api/waiterApi"
 import { getAllTables } from "../api/tableApi"
-import { getAllOrders } from "../api/orderApi"
 import { FiBell, FiGrid, FiClipboard } from "react-icons/fi"
 import toast from "react-hot-toast"
+import { useWaiterCalls } from "../hooks/useWaiterCalls"
 
 const WaiterDashboard = () => {
-    const [calls, setCalls] = useState([])
+
     const [tables, setTables] = useState([])
-    const [orders, setOrders] = useState([])
 
-    const [callsLoading, setCallsLoading] = useState(true)
     const [tablesLoading, setTablesLoading] = useState(true)
-    const [ordersLoading, setOrdersLoading] = useState(true)
 
-    useEffect(() => {
-        const fetchOrders = async () => {
-            try {
-                const data = await getAllOrders();
-                setOrders(data);
-            } catch (err) {
-                toast.error("Failed to load orders");
-            } finally {
-                setOrdersLoading(false);
-            }
-        };
-        fetchOrders();
-        const interval = setInterval(fetchOrders, 5000);
-        return () => clearInterval(interval);
-    }, [])
+    const { calls, loading: callsLoading, resolveCall } = useWaiterCalls(5000);
 
     const activeOrders = orders.filter((order) => order.status !== "served");
 
@@ -45,32 +27,6 @@ const WaiterDashboard = () => {
         };
         fetchTables();
     }, [])
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const data = await getAllWaiterCalls();
-                setCalls(data);
-            } catch (err) {
-                toast.error("Failed to load waiter calls");
-            } finally {
-                setCallsLoading(false);
-            }
-        };
-        fetchData();
-        const interval = setInterval(fetchData, 5000);
-        return () => clearInterval(interval);
-    }, [])
-
-    const handleResolve = async (id) => {
-        try {
-            const updatedCall = await resolveWaiterCall(id);
-            setCalls(calls.map((call) => call._id === id ? updatedCall : call));
-            toast.success(`Table ${updatedCall.tableNumber} resolved`);
-        } catch (err) {
-            toast.error("Failed to resolve call");
-        }
-    };
 
     const pendingCalls = calls.filter((call) => call.status !== "resolved");
 
@@ -151,7 +107,7 @@ const WaiterDashboard = () => {
                                         </div>
                                     </div>
                                     <button
-                                        onClick={() => handleResolve(call._id)}
+                                        onClick={() => resolveCall(call._id)}
                                         className="font-[Poppins] font-bold shrink-0 bg-[#2D5F3E] hover:bg-[#244c32] text-white px-4 py-2.5 rounded-full text-sm cursor-pointer transition-colors"
                                     >
                                         Resolve
@@ -187,11 +143,10 @@ const WaiterDashboard = () => {
                                         {table.tableNumber}
                                     </p>
                                     <span
-                                        className={`font-[Poppins] mt-1.5 inline-block px-2.5 py-1 rounded-full text-xs font-semibold capitalize ring-1 ring-inset ${
-                                            table.status === "available"
-                                                ? "bg-[#2D5F3E]/15 text-emerald-300 ring-[#2D5F3E]/40"
-                                                : "bg-amber-500/10 text-amber-400 ring-amber-500/30"
-                                        }`}
+                                        className={`font-[Poppins] mt-1.5 inline-block px-2.5 py-1 rounded-full text-xs font-semibold capitalize ring-1 ring-inset ${table.status === "available"
+                                            ? "bg-[#2D5F3E]/15 text-emerald-300 ring-[#2D5F3E]/40"
+                                            : "bg-amber-500/10 text-amber-400 ring-amber-500/30"
+                                            }`}
                                     >
                                         {table.status}
                                     </span>
@@ -234,9 +189,8 @@ const WaiterDashboard = () => {
                                             Table {order.tableNumber}
                                         </p>
                                         <span
-                                            className={`font-[Poppins] px-2.5 py-1 rounded-full text-xs font-semibold capitalize ring-1 ring-inset ${
-                                                orderStatusStyles[order.status] || orderStatusStyles.pending
-                                            }`}
+                                            className={`font-[Poppins] px-2.5 py-1 rounded-full text-xs font-semibold capitalize ring-1 ring-inset ${orderStatusStyles[order.status] || orderStatusStyles.pending
+                                                }`}
                                         >
                                             {order.status}
                                         </span>
