@@ -2,6 +2,7 @@ import DashboardHeader from "./DashboardHeader"
 import { FiBell, FiClipboard } from "react-icons/fi"
 import { useWaiterCalls } from "../hooks/useWaiterCalls"
 import { useOrders } from "../hooks/useOrders"
+import WaiterCallCard from "./WaiterCallCard";
 
 const WaiterDashboard = () => {
     const { calls, loading: callsLoading, resolveCall } = useWaiterCalls(5000);
@@ -47,33 +48,7 @@ const WaiterDashboard = () => {
                     ) : (
                         <div className="space-y-3">
                             {pendingCalls.map((call) => (
-                                <div
-                                    key={call._id}
-                                    className="bg-[#2A2E32] rounded-2xl p-4 flex items-center justify-between gap-4 border-l-4 border-amber-500 shadow-sm"
-                                >
-                                    <div className="flex items-center gap-4 min-w-0">
-                                        <div className="shrink-0 w-11 h-11 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center">
-                                            <FiBell size={18} />
-                                        </div>
-                                        <div className="min-w-0">
-                                            <p className="font-[Poppins] font-bold text-white">
-                                                Table {call.tableNumber} is requesting a waiter
-                                            </p>
-                                            <p className="font-[Poppins] text-xs text-neutral-400">
-                                                {new Date(call.createdAt).toLocaleTimeString("en-IN", {
-                                                    hour: "2-digit",
-                                                    minute: "2-digit",
-                                                })}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <button
-                                        onClick={() => resolveCall(call._id)}
-                                        className="font-[Poppins] font-bold shrink-0 bg-[#2D5F3E] hover:bg-[#244c32] text-white px-4 py-2.5 rounded-full text-sm cursor-pointer transition-colors"
-                                    >
-                                        Resolve
-                                    </button>
-                                </div>
+                                <WaiterCallCard key={call._id} call={call} onResolve={resolveCall} theme="dark" />
                             ))}
                         </div>
                     )}

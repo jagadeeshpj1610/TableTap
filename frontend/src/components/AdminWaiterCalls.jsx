@@ -1,5 +1,5 @@
-import { FiBell } from "react-icons/fi"
 import { useWaiterCalls } from "../hooks/useWaiterCalls";
+import WaiterCallCard from "./WaiterCallCard";
 
 const AdminWaiterCalls = () => {
     const { calls, loading, resolveCall } = useWaiterCalls(5000);
@@ -39,33 +39,7 @@ const AdminWaiterCalls = () => {
             ) : (
                 <div className="space-y-3">
                     {pendingCalls.map((call) => (
-                        <div
-                            key={call._id}
-                            className="bg-white rounded-2xl p-4 flex items-center justify-between gap-4 shadow-sm border-l-4 border-amber-500"
-                        >
-                            <div className="flex items-center gap-4 min-w-0">
-                                <div className="shrink-0 w-11 h-11 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center">
-                                    <FiBell size={18} />
-                                </div>
-                                <div className="min-w-0">
-                                    <p className="font-[Poppins] font-bold text-[#1A1A1A]">
-                                        Table {call.tableNumber}
-                                    </p>
-                                    <p className="font-[Poppins] text-xs text-[#767676]">
-                                        {new Date(call.createdAt).toLocaleTimeString("en-IN", {
-                                            hour: "2-digit",
-                                            minute: "2-digit",
-                                        })}
-                                    </p>
-                                </div>
-                            </div>
-                            <button
-                                onClick={() => resolveCall(call._id)}
-                                className="font-[Poppins] font-bold shrink-0 bg-[#2D5F3E] hover:bg-[#244c32] text-white px-4 py-2.5 rounded-full text-sm cursor-pointer transition-colors"
-                            >
-                                Resolve
-                            </button>
-                        </div>
+                        <WaiterCallCard key={call._id} call={call} onResolve={resolveCall} theme="light" />
                     ))}
                 </div>
             )}
