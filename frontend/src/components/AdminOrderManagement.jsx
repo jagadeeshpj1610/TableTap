@@ -5,10 +5,15 @@ import { FiRefreshCw } from "react-icons/fi"
 import toast from "react-hot-toast"
 import { useOrders } from "../hooks/useOrders"
 import BillBreakdown from "./billBreakdown"
-import StatusBadge from "./StatusBadge"
+
 
 const TABS = ["all", "pending", "preparing", "ready", "served"]
-
+const statusStyles = {
+    pending: "bg-amber-50 text-amber-700 ring-amber-200",
+    preparing: "bg-blue-50 text-blue-700 ring-blue-200",
+    ready: "bg-green-50 text-[#2D5F3E] ring-green-200",
+    served: "bg-stone-100 text-stone-500 ring-stone-200",
+}
 
 
 const AdminOrderManagement = () => {
@@ -188,7 +193,11 @@ const AdminOrderManagement = () => {
                                         })}
                                     </p>
                                 </div>
-                                <StatusBadge status={order.status} styleMap={statusStyles} />
+                                <span
+                                    className={`font-[Poppins] px-2.5 py-1 rounded-full text-xs font-semibold capitalize ring-1 ring-inset ${statusStyles[order.status]}`}
+                                >
+                                    {order.status}
+                                </span>
                             </div>
 
                             <ul className="divide-y divide-stone-100 text-sm">
