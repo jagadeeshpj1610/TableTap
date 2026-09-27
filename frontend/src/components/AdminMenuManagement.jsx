@@ -18,10 +18,17 @@ const AdminMenuManagement = () => {
     const CATEGORIES = ["Starters", "Main Course", "Biryani", "Snacks", "Drinks", "Desserts"];
 
     const [editingId, setEditingId] = useState(null);
+    const [loading, setLoading] = useState(true)
     useEffect(() => {
         const fetchData = async () => {
-            const data = await getMenu()
-            setMenuItems(data)
+            try {
+                const data = await getMenu()
+                setMenuItems(data)
+            } catch (err) {
+                toast.error("Failed to load menu")
+            } finally {
+                setLoading(false)
+            }
         };
         fetchData()
     }, [])
@@ -142,49 +149,68 @@ const AdminMenuManagement = () => {
                 </button>
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {menuItems.map((item) => (
-                    <div
-                        key={item._id}
-                        className="bg-white rounded-2xl border border-stone-200 p-4 shadow-sm flex flex-col gap-3"
-                    >
-                        <div className="flex justify-between items-start gap-2">
-                            <h3 className="font-[Poppins] font-bold text-[#1A1A1A]">{item.name}</h3>
-                            <span
-                                className={`font-[Poppins] shrink-0 px-2.5 py-1 rounded-full text-xs font-semibold ring-1 ring-inset ${item.isAvailable
-                                    ? "bg-green-50 text-[#2D5F3E] ring-green-200"
-                                    : "bg-red-50 text-red-700 ring-red-200"
-                                    }`}
-                            >
-                                {item.isAvailable ? "Available" : "Unavailable"}
-                            </span>
+            {loading ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {Array.from({ length: 6 }).map((_, i) => (
+                        <div key={i} className="bg-white rounded-2xl p-4 shadow-sm border border-stone-100 animate-pulse">
+                            <div className="flex justify-between items-start mb-2 gap-2">
+                                <div className="h-5 bg-stone-200 rounded w-2/3" />
+                                <div className="h-5 bg-stone-200 rounded-full w-20" />
+                            </div>
+                            <div className="h-4 bg-stone-200 rounded w-1/2 mb-3" />
+                            <div className="flex gap-2">
+                                <div className="h-8 w-8 bg-stone-200 rounded-full" />
+                                <div className="h-8 w-8 bg-stone-200 rounded-full" />
+                                <div className="h-8 w-8 bg-stone-200 rounded-full ml-auto" />
+                            </div>
                         </div>
-                        <p className="font-[Poppins] text-sm text-[#767676]">
-                            {item.category} · ₹{item.price}
-                        </p>
-                        <div className="flex gap-2 mt-1">
-                            <button
-                                onClick={() => handleEditClick(item)}
-                                className="font-[Poppins] font-semibold flex items-center gap-1.5 text-xs border border-stone-300 text-[#1A1A1A] px-3 py-1.5 rounded-full cursor-pointer hover:bg-stone-50 transition-colors"
-                            >
-                                <FiEdit2 size={12} /> Edit
-                            </button>
-                            <button
-                                onClick={() => handleToggleAvailability(item)}
-                                className="font-[Poppins] font-semibold text-xs border border-stone-300 text-[#1A1A1A] px-3 py-1.5 rounded-full cursor-pointer hover:bg-stone-50 transition-colors"
-                            >
-                                {item.isAvailable ? "Mark Unavailable" : "Mark Available"}
-                            </button>
-                            <button
-                                onClick={() => handleDeleteItem(item._id)}
-                                className="font-[Poppins] font-semibold flex items-center gap-1.5 text-xs border border-red-300 text-[#8B2635] px-3 py-1.5 rounded-full cursor-pointer hover:bg-red-50 transition-colors"
-                            >
-                                <FiTrash2 size={12} /> Delete
-                            </button>
+                    ))}
+                </div>
+            ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {menuItems.map((item) => (
+                        <div
+                            key={item._id}
+                            className="bg-white rounded-2xl border border-stone-200 p-4 shadow-sm flex flex-col gap-3"
+                        >
+                            <div className="flex justify-between items-start gap-2">
+                                <h3 className="font-[Poppins] font-bold text-[#1A1A1A]">{item.name}</h3>
+                                <span
+                                    className={`font-[Poppins] shrink-0 px-2.5 py-1 rounded-full text-xs font-semibold ring-1 ring-inset ${item.isAvailable
+                                        ? "bg-green-50 text-[#2D5F3E] ring-green-200"
+                                        : "bg-red-50 text-red-700 ring-red-200"
+                                        }`}
+                                >
+                                    {item.isAvailable ? "Available" : "Unavailable"}
+                                </span>
+                            </div>
+                            <p className="font-[Poppins] text-sm text-[#767676]">
+                                {item.category} · ₹{item.price}
+                            </p>
+                            <div className="flex gap-2 mt-1">
+                                <button
+                                    onClick={() => handleEditClick(item)}
+                                    className="font-[Poppins] font-semibold flex items-center gap-1.5 text-xs border border-stone-300 text-[#1A1A1A] px-3 py-1.5 rounded-full cursor-pointer hover:bg-stone-50 transition-colors"
+                                >
+                                    <FiEdit2 size={12} /> Edit
+                                </button>
+                                <button
+                                    onClick={() => handleToggleAvailability(item)}
+                                    className="font-[Poppins] font-semibold text-xs border border-stone-300 text-[#1A1A1A] px-3 py-1.5 rounded-full cursor-pointer hover:bg-stone-50 transition-colors"
+                                >
+                                    {item.isAvailable ? "Mark Unavailable" : "Mark Available"}
+                                </button>
+                                <button
+                                    onClick={() => handleDeleteItem(item._id)}
+                                    className="font-[Poppins] font-semibold flex items-center gap-1.5 text-xs border border-red-300 text-[#8B2635] px-3 py-1.5 rounded-full cursor-pointer hover:bg-red-50 transition-colors"
+                                >
+                                    <FiTrash2 size={12} /> Delete
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                ))}
-            </div>
+                    ))}
+                </div>
+            )}
         </div>
     )
 }
