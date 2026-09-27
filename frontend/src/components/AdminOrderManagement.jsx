@@ -4,7 +4,7 @@ import { getAllPayments, updatePaymentStatus } from "../api/paymentApi"
 import { FiRefreshCw } from "react-icons/fi"
 import toast from "react-hot-toast"
 import { useOrders } from "../hooks/useOrders"
-import BillBreakdown from "./billBreakdown"
+import BillBreakdown from "./BillBreakdown"
 
 
 const TABS = ["all", "pending", "preparing", "ready", "served"]
