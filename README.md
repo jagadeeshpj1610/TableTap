@@ -104,7 +104,7 @@ WAITER_PASSWORD=<password for the waiter role>
 ```
 
 ```bash
-npm run dev
+npm start
 ```
 
 ### Frontend
