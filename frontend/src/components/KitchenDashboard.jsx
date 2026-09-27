@@ -2,27 +2,11 @@ import { useState, useEffect } from "react"
 import { getAllOrders, updateOrderStatus } from "../api/orderApi"
 import { FiClock, FiCheckCircle } from "react-icons/fi"
 import toast from "react-hot-toast"
+import { useOrders } from "../hooks/useOrders"
 
 const KitchenDashboard = () => {
-    const [orders, setOrders] = useState([])
-    const [loading, setLoading] = useState(true)
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const data = await getAllOrders()
-                setOrders(data)
-            } catch (err) {
-                toast.error("Failed to load orders")
-            } finally {
-                setLoading(false)
-            }
-        };
-        fetchData()
-
-        const interval = setInterval(fetchData, 5000);
-        return () => clearInterval(interval);
-    }, [])
+    const { orders, setOrders, loading } = useOrders(5000);
 
     const handleUpdateOrderStatus = async (orderId, newStatus) => {
         try {
