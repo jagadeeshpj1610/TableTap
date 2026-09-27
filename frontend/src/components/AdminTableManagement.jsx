@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react"
 import { getAllTables, createTable } from "../api/tableApi"
 import { QRCodeSVG } from "qrcode.react"
-import { FiDownload, FiPrinter, FiPlus } from "react-icons/fi"
+import { FiDownload,  FiPlus } from "react-icons/fi"
 import toast from "react-hot-toast"
 
 const AdminTableManagement = () => {
@@ -81,36 +81,6 @@ const AdminTableManagement = () => {
             toast.success("QR code downloaded")
         } catch (err) {
             toast.error("Failed to download QR code")
-        }
-    }
-
-    const handlePrint = async (table) => {
-        try {
-            const dataUrl = await getQrPngDataUrl(table._id)
-            if (!dataUrl) {
-                toast.error("Could not generate QR code")
-                return
-            }
-            const printWindow = window.open("", "_blank", "width=400,height=500")
-            printWindow.document.write(`
-                <html>
-                    <head>
-                        <title>Table ${table.tableNumber} QR</title>
-                        <style>
-                            body { display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; margin:0; font-family: Poppins, sans-serif; }
-                            img { width:280px; height:280px; }
-                            p { font-size:20px; font-weight:700; color:#1A1A1A; margin-top:16px; }
-                        </style>
-                    </head>
-                    <body>
-                        <img src="${dataUrl}" onload="window.print(); window.onafterprint = () => window.close();" />
-                        <p>Table ${table.tableNumber}</p>
-                    </body>
-                </html>
-            `)
-            printWindow.document.close()
-        } catch (err) {
-            toast.error("Failed to open print window")
         }
     }
 
@@ -199,13 +169,6 @@ const AdminTableManagement = () => {
                                 >
                                     <FiDownload size={13} />
                                     Save
-                                </button>
-                                <button
-                                    onClick={() => handlePrint(table)}
-                                    className="font-[Poppins] font-semibold flex-1 flex items-center justify-center gap-1.5 text-xs bg-[#2D5F3E] hover:bg-[#244c32] text-white px-3 py-2 rounded-full cursor-pointer transition-colors"
-                                >
-                                    <FiPrinter size={13} />
-                                    Print
                                 </button>
                             </div>
                         </div>
