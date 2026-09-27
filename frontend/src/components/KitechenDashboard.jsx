@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { getAllOrders, updateOrderStatus } from "../api/orderApi"
-import { FiClock } from "react-icons/fi"
+import { FiClock, FiCheckCircle } from "react-icons/fi"
 
 const KitchenDashboard = () => {
     const [orders, setOrders] = useState([])
@@ -23,9 +23,9 @@ const KitchenDashboard = () => {
 
     const statusStyles = {
         pending: {
-            border: "border-red-500",
-            badge: "bg-red-500/10 text-red-400 ring-red-500/30",
-            button: "bg-red-500 hover:bg-red-600 text-white",
+            border: "border-amber-500",
+            badge: "bg-amber-500/15 text-amber-400 ring-amber-500/30",
+            button: "bg-amber-500 hover:bg-amber-600 text-white",
             label: "Accept Order",
             next: "preparing",
         },
@@ -37,9 +37,9 @@ const KitchenDashboard = () => {
             next: "ready",
         },
         ready: {
-            border: "border-emerald-500",
-            badge: "bg-emerald-500/10 text-emerald-400 ring-emerald-500/30",
-            button: "bg-emerald-600 hover:bg-emerald-700 text-white",
+            border: "border-[#2D5F3E]",
+            badge: "bg-[#2D5F3E]/15 text-emerald-300 ring-[#2D5F3E]/40",
+            button: "bg-[#2D5F3E] hover:bg-[#244c32] text-white",
             label: "Served",
             next: "served",
         },
@@ -50,8 +50,8 @@ const KitchenDashboard = () => {
         .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
 
     return (
-        <div className="min-h-screen bg-[#1A1A1A]">
-            <header className="bg-[#1A1A1A] border-b border-stone-800 sticky top-0 z-10">
+        <div className="min-h-screen bg-[#1F2225]">
+            <header className="bg-[#1F2225] border-b border-neutral-700 sticky top-0 z-10">
                 <div className="max-w-7xl mx-auto px-4 sm:px-8 py-4 flex items-center justify-between">
                     <div>
                         <h2 className="font-[Poppins] font-extrabold text-lg text-white tracking-tight">
@@ -63,8 +63,8 @@ const KitchenDashboard = () => {
                     </div>
                     <div className="flex items-center gap-2">
                         <span className="relative flex h-2.5 w-2.5">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400"></span>
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#2D5F3E] opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#2D5F3E]"></span>
                         </span>
                         <span className="font-[Poppins] text-xs font-semibold text-neutral-400">
                             Live
@@ -86,7 +86,8 @@ const KitchenDashboard = () => {
                 </div>
 
                 {activeOrders.length === 0 ? (
-                    <div className="bg-[#242424] rounded-2xl py-16 text-center">
+                    <div className="bg-[#2A2E32] rounded-2xl py-16 text-center shadow-sm">
+                        <FiCheckCircle className="mx-auto text-neutral-600 mb-3" size={32} />
                         <p className="font-[Poppins] text-neutral-400 text-sm">No active orders right now.</p>
                     </div>
                 ) : (
@@ -96,7 +97,7 @@ const KitchenDashboard = () => {
                             return (
                                 <div
                                     key={order._id}
-                                    className={`bg-[#242424] rounded-2xl p-5 border-l-4 ${style.border} min-h-[220px] flex flex-col`}
+                                    className={`bg-[#2A2E32] rounded-2xl p-5 border-l-4 ${style.border} min-h-[220px] flex flex-col shadow-sm`}
                                 >
                                     <div className="flex justify-between items-start mb-3">
                                         <div>
