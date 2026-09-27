@@ -3,6 +3,7 @@ import { FiBell, FiClipboard } from "react-icons/fi"
 import { useWaiterCalls } from "../hooks/useWaiterCalls"
 import { useOrders } from "../hooks/useOrders"
 import WaiterCallCard from "./WaiterCallCard";
+import ConfirmLogoutModal from "./ConfirmLogoutModal"
 
 const WaiterDashboard = () => {
     const { calls, loading: callsLoading, resolveCall } = useWaiterCalls(5000);
@@ -20,7 +21,7 @@ const WaiterDashboard = () => {
 
     return (
         <div className="min-h-screen bg-[#1F2225]">
-            <DashboardHeader subtitle="Waiter Dashboard" />
+            <DashboardHeader subtitle="Kitchen Display" onLogoutClick={() => setShowLogoutConfirm(true)} />
 
             <div className="max-w-7xl mx-auto px-4 sm:px-8 py-8">
                 <section className="mb-10">
@@ -102,6 +103,12 @@ const WaiterDashboard = () => {
                     )}
                 </section>
             </div>
+            <ConfirmLogoutModal
+                isOpen={showLogoutConfirm}
+                onCancel={() => setShowLogoutConfirm(false)}
+                onConfirm={handleLogout}
+                dark={true}
+            />
         </div>
     )
 }

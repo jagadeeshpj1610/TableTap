@@ -4,10 +4,22 @@ import { FiClock, FiCheckCircle } from "react-icons/fi"
 import toast from "react-hot-toast"
 import { useOrders } from "../hooks/useOrders"
 import DashboardHeader from "./DashboardHeader"
+import ConfirmLogoutModal from "./ConfirmLogoutModal"
+import { useNavigate } from "react-router-dom"
+import { FiLogOut } from "react-icons/fi"
+import { logout } from "../utils/auth"
 
 const KitchenDashboard = () => {
 
     const { orders, setOrders, loading } = useOrders(5000);
+
+    const navigate = useNavigate();
+    const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+
+    const handleLogout = () => {
+        logout();
+        navigate("/login");
+    };
 
     const handleUpdateOrderStatus = async (orderId, newStatus) => {
         try {
@@ -49,7 +61,7 @@ const KitchenDashboard = () => {
 
     return (
         <div className="min-h-screen bg-[#1F2225]">
-          <DashboardHeader subtitle="Kitchen Display" />
+            <DashboardHeader subtitle="Kitchen Display" onLogoutClick={() => setShowLogoutConfirm(true)} />
 
             <div className="max-w-7xl mx-auto px-4 sm:px-8 py-8">
                 <div className="flex items-end justify-between mb-8">
@@ -146,6 +158,12 @@ const KitchenDashboard = () => {
                     </div>
                 )}
             </div>
+            <ConfirmLogoutModal
+                isOpen={showLogoutConfirm}
+                onCancel={() => setShowLogoutConfirm(false)}
+                onConfirm={handleLogout}
+                dark={true}
+            />
         </div>
     )
 }
