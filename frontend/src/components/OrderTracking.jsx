@@ -3,7 +3,7 @@ import { getOrderById } from "../api/orderApi";
 import { FiChevronUp } from "react-icons/fi";
 import PaymentSection from "./PaymentSection";
 import toast from "react-hot-toast"
-import BillBreakdown from "./BillBreakdown";
+import Bill from "./Bill";
 
 
 const STEPS = [
@@ -119,7 +119,7 @@ const OrderTracking = ({ currentOrder, onClose, callWaiter, viewBill, bill }) =>
                             {showBill ? "Hide Bill" : "View Bill"}
                         </button>
 
-                        {showBill && <BillBreakdown bill={bill} />}
+                        {showBill && <Bill bill={bill} />}
 
                         <PaymentSection currentOrder={currentOrder} />
 

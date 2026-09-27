@@ -1,4 +1,4 @@
-const BillBreakdown = ({ bill }) => {
+const Bill = ({ bill }) => {
     if (!bill) return null;
 
     return (
@@ -23,4 +23,4 @@ const BillBreakdown = ({ bill }) => {
     );
 };
 
-export default BillBreakdown;
+export default Bill;

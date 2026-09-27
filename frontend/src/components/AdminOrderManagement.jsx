@@ -4,7 +4,7 @@ import { getAllPayments, updatePaymentStatus } from "../api/paymentApi"
 import { FiRefreshCw } from "react-icons/fi"
 import toast from "react-hot-toast"
 import { useOrders } from "../hooks/useOrders"
-import BillBreakdown from "./BillBreakdown"
+import Bill from "./Bill"
 
 
 const TABS = ["all", "pending", "preparing", "ready", "served"]
@@ -251,7 +251,7 @@ const AdminOrderManagement = () => {
                                 </button>
                             </div>
 
-                            {bills[order._id] && <BillBreakdown bill={bills[order._id]} />}
+                            {bills[order._id] && <Bill bill={bills[order._id]} />}
                         </div>
                     ))}
                 </div>
