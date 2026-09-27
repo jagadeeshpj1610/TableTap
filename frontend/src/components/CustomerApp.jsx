@@ -10,6 +10,7 @@ import OrderTracking from "./OrderTracking";
 import { createWaiterCall } from "../api/waiterApi";
 import { useSearchParams } from "react-router-dom";
 import { FiSearch } from "react-icons/fi"
+import toast from "react-hot-toast"
 
 
 
@@ -51,10 +52,10 @@ function CustomerApp() {
         } else {
             setCartItems([...cartItems, { menuItem: item._id, name: item.name, price: item.price, quantity: 1 }]);
         }
+        toast.success(`${item.name} added to cart`);
     }
-    console.log(cartItems);
+
     const totalCartItems = cartItems.reduce((total, item) => total + item.quantity, 0);
-    // console.log(totalCartItems);
 
     const updateQuantity = (menuItemId, change) => {
         setCartItems(
@@ -67,6 +68,7 @@ function CustomerApp() {
                 .filter((cartItem) => cartItem.quantity > 0)
         );
     };
+
     const placeOrder = async () => {
         const orderItems = cartItems.map((item) => ({
             menuItem: item.menuItem,
@@ -74,18 +76,25 @@ function CustomerApp() {
             price: item.price
         }));
 
-        const data = await createOrder(tableNumber, orderItems);
-        console.log("Order placed:", data);
-        setCurrentOrder(data)
-        setCartItems([])
-        setIsCartOpen(false)
+        try {
+            const data = await createOrder(tableNumber, orderItems);
+            setCurrentOrder(data)
+            setCartItems([])
+            setIsCartOpen(false)
+            toast.success("Order placed!");
+        } catch (err) {
+            toast.error("Failed to place order. Please try again.");
+        }
     };
 
     const callWaiter = async () => {
-        const data = await createWaiterCall(tableNumber);
-        console.log("Waiter called:", data);
+        try {
+            await createWaiterCall(tableNumber);
+            toast.success("Waiter has been notified");
+        } catch (err) {
+            toast.error("Failed to call waiter");
+        }
     };
-
     const viewBill = async () => {
         const billData = await getOrderBill(currentOrder._id);
         console.log(billData);
