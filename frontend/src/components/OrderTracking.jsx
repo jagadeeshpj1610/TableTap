@@ -3,7 +3,7 @@ import { getOrderById } from "../api/orderApi";
 import { FiChevronUp } from "react-icons/fi";
 import PaymentSection from "./PaymentSection";
 import toast from "react-hot-toast"
-import BillBreakdown from "./billBreakdown";
+import BillBreakdown from "./BillBreakdown";
 
 
 const STEPS = [
