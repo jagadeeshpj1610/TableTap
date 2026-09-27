@@ -5,7 +5,7 @@ import FoodCard from './FoodCard'
 import CategoryTabs from "./CategoryTabs";
 import SearchBar from "./SearchBar";
 import Cart from "./Cart";
-import { createOrder, getOrderById, getOrderBill } from "../api/orderApi"
+import { createOrder, getOrderBill } from "../api/orderApi"
 import OrderTracking from "./OrderTracking";
 import { createWaiterCall } from "../api/waiterApi";
 import { useSearchParams } from "react-router-dom";
@@ -103,9 +103,12 @@ function CustomerApp() {
         }
     };
     const viewBill = async () => {
-        const billData = await getOrderBill(currentOrder._id);
-        console.log(billData);
-        setBill(billData);
+        try {
+            const billData = await getOrderBill(currentOrder._id);
+            setBill(billData);
+        } catch (err) {
+            toast.error("Failed to load bill");
+        }
     };
     return (
         <>
