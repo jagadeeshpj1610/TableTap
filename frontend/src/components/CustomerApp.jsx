@@ -5,7 +5,7 @@ import FoodCard from './FoodCard'
 import CategoryTabs from "./CategoryTabs";
 import SearchBar from "./SearchBar";
 import Cart from "./Cart";
-import { createOrder, getOrderBill } from "../api/orderApi"
+import { createOrder,getOrderById, getOrderBill } from "../api/orderApi"
 import OrderTracking from "./OrderTracking";
 import { createWaiterCall } from "../api/waiterApi";
 import { useSearchParams } from "react-router-dom";
@@ -77,10 +77,6 @@ function CustomerApp() {
     };
 
     const placeOrder = async () => {
-        if (cartItems.length === 0) {
-            toast.error("Your cart is empty");
-            return;
-        }
         const orderItems = cartItems.map((item) => ({
             menuItem: item.menuItem,
             quantity: item.quantity,
@@ -92,11 +88,40 @@ function CustomerApp() {
             setCurrentOrder(data)
             setCartItems([])
             setIsCartOpen(false)
+            sessionStorage.setItem(
+                `activeOrder_table_${tableNumber}`,
+                JSON.stringify({ orderId: data._id, savedAt: Date.now() })
+            )
             toast.success("Order placed!");
         } catch (err) {
             toast.error("Failed to place order. Please try again.");
         }
     };
+
+    const ORDER_EXPIRY_MS = 4 * 60 * 60 * 1000 
+
+    useEffect(() => {
+        const raw = sessionStorage.getItem(`activeOrder_table_${tableNumber}`)
+        if (!raw) return
+
+        const { orderId, savedAt } = JSON.parse(raw)
+        const isExpired = Date.now() - savedAt > ORDER_EXPIRY_MS
+
+        if (isExpired) {
+            sessionStorage.removeItem(`activeOrder_table_${tableNumber}`)
+            return
+        }
+
+        const restoreOrder = async () => {
+            try {
+                const order = await getOrderById(orderId)
+                setCurrentOrder(order)
+            } catch (err) {
+                sessionStorage.removeItem(`activeOrder_table_${tableNumber}`)
+            }
+        };
+        restoreOrder()
+    }, [tableNumber])
 
     const callWaiter = async () => {
         try {
@@ -116,8 +141,18 @@ function CustomerApp() {
     };
     return (
         <>
-            {currentOrder && <OrderTracking currentOrder={currentOrder} onClose={() => setCurrentOrder(null)} callWaiter={callWaiter} viewBill={viewBill} bill={bill} />}
-
+            {currentOrder && (
+                <OrderTracking
+                    currentOrder={currentOrder}
+                    onClose={() => {
+                        setCurrentOrder(null)
+                        sessionStorage.removeItem(`activeOrder_table_${tableNumber}`)
+                    }}
+                    callWaiter={callWaiter}
+                    viewBill={viewBill}
+                    bill={bill}
+                />
+            )}
             {isCartOpen && (
                 <Cart cartItems={cartItems} updateQuantity={updateQuantity} onClose={() => setIsCartOpen(false)} placeOrder={placeOrder} />
             )}
