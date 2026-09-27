@@ -16,7 +16,7 @@ const AdminOverview = () => {
     const [orders, setOrders] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState("")
-
+    
     const fetchOrders = async () => {
         try {
             setLoading(true)
@@ -25,6 +25,7 @@ const AdminOverview = () => {
             setOrders(data)
         } catch (err) {
             setError("Could not load orders. Is the backend running?")
+            toast.error("Failed to refresh")
         } finally {
             setLoading(false)
         }

@@ -29,6 +29,7 @@ const AdminOrderManagement = () => {
             setOrders(data)
         } catch (err) {
             setError("Could not load orders. Is the backend running?")
+            toast.error("Failed to refresh")
         } finally {
             setLoading(false)
         }
