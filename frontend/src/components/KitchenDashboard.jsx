@@ -6,7 +6,6 @@ import { useOrders } from "../hooks/useOrders"
 import DashboardHeader from "./DashboardHeader"
 import ConfirmLogoutModal from "./ConfirmLogoutModal"
 import { useNavigate } from "react-router-dom"
-import { FiLogOut } from "react-icons/fi"
 import { logout } from "../utils/auth"
 
 const KitchenDashboard = () => {
