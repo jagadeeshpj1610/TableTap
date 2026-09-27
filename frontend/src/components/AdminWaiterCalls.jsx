@@ -1,37 +1,8 @@
-import { useState, useEffect } from "react"
-import { getAllWaiterCalls, resolveWaiterCall } from "../api/waiterApi"
 import { FiBell } from "react-icons/fi"
-import toast from "react-hot-toast"
+import { useWaiterCalls } from "../hooks/useWaiterCalls";
 
 const AdminWaiterCalls = () => {
-    const [calls, setCalls] = useState([])
-    const [loading, setLoading] = useState(true)
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const data = await getAllWaiterCalls();
-                setCalls(data);
-            } catch (err) {
-                toast.error("Failed to load waiter calls");
-            } finally {
-                setLoading(false)
-            }
-        };
-        fetchData();
-        const interval = setInterval(fetchData, 5000);
-        return () => clearInterval(interval);
-    }, [])
-
-    const handleResolve = async (id) => {
-        try {
-            const updatedCall = await resolveWaiterCall(id);
-            setCalls(calls.map((call) => call._id === id ? updatedCall : call));
-            toast.success(`Table ${updatedCall.tableNumber} resolved`);
-        } catch (err) {
-            toast.error("Failed to resolve call");
-        }
-    };
+    const { calls, loading, resolveCall } = useWaiterCalls(5000);
 
     const pendingCalls = calls.filter((call) => call.status !== "resolved");
 
@@ -89,7 +60,7 @@ const AdminWaiterCalls = () => {
                                 </div>
                             </div>
                             <button
-                                onClick={() => handleResolve(call._id)}
+                                onClick={() => resolveCall(call._id)}
                                 className="font-[Poppins] font-bold shrink-0 bg-[#2D5F3E] hover:bg-[#244c32] text-white px-4 py-2.5 rounded-full text-sm cursor-pointer transition-colors"
                             >
                                 Resolve
