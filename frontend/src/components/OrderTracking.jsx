@@ -133,6 +133,7 @@ const OrderTracking = ({ currentOrder, onClose, callWaiter, viewBill, bill }) =>
                 )}
             </div>
         </div>
+        
     )
 }
 
