@@ -49,9 +49,13 @@ const AdminMenuManagement = () => {
     }
 
     const handleDeleteItem = async (id) => {
-        const deletedItem = await deleteMenuItem(id);
-        setMenuItems(menuItems.filter((item) => item._id !== id))
-        toast.success("Item deleted successfully!");
+        try {
+            await deleteMenuItem(id);
+            setMenuItems(menuItems.filter((item) => item._id !== id))
+            toast.success("Item deleted");
+        } catch (err) {
+            toast.error("Failed to delete item");
+        }
     }
 
     const handleEditClick = (item) => {
