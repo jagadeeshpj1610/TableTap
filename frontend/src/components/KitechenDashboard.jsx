@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { getAllOrders, updateOrderStatus } from "../api/orderApi"
 import { FiClock, FiCheckCircle } from "react-icons/fi"
+import toast from "react-hot-toast"
 
 const KitchenDashboard = () => {
     const [orders, setOrders] = useState([])
@@ -17,8 +18,13 @@ const KitchenDashboard = () => {
     }, [])
 
     const handleUpdateOrderStatus = async (orderId, newStatus) => {
-        const updatedOrder = await updateOrderStatus(orderId, newStatus);
-        setOrders(orders.map((order) => order._id === orderId ? updatedOrder : order))
+        try {
+            const updatedOrder = await updateOrderStatus(orderId, newStatus);
+            setOrders(orders.map((order) => order._id === orderId ? updatedOrder : order))
+            toast.success(`Table ${updatedOrder.tableNumber} → ${newStatus}`);
+        } catch (err) {
+            toast.error("Failed to update order status");
+        }
     }
 
     const statusStyles = {
