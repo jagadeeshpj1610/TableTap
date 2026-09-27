@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react"
-import { getAllOrders, updateOrderStatus, getOrderBill } from "../api/orderApi"
+import { updateOrderStatus, getOrderBill } from "../api/orderApi"
 import { getAllPayments, updatePaymentStatus } from "../api/paymentApi"
 import { FiRefreshCw } from "react-icons/fi"
 import toast from "react-hot-toast"
+import { useOrders } from "../hooks/useOrders"
 
 const TABS = ["all", "pending", "preparing", "ready", "served"]
 
@@ -14,30 +15,11 @@ const statusStyles = {
 }
 
 const AdminOrderManagement = () => {
-    const [orders, setOrders] = useState([])
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState("")
     const [activeTab, setActiveTab] = useState("all")
     const [bills, setBills] = useState({})
     const [payments, setPayments] = useState([])
 
-    const fetchOrders = async () => {
-        try {
-            setLoading(true)
-            setError("")
-            const data = await getAllOrders()
-            setOrders(data)
-        } catch (err) {
-            setError("Could not load orders. Is the backend running?")
-            toast.error("Failed to refresh")
-        } finally {
-            setLoading(false)
-        }
-    }
-
-    useEffect(() => {
-        fetchOrders()
-    }, [])
+    const { orders, setOrders, loading, error, refetch: fetchOrders } = useOrders(5000);
 
     useEffect(() => {
         const fetchPayments = async () => {

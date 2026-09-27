@@ -3,6 +3,7 @@ import { getAllTables } from "../api/tableApi"
 import { FiBell, FiGrid, FiClipboard } from "react-icons/fi"
 import toast from "react-hot-toast"
 import { useWaiterCalls } from "../hooks/useWaiterCalls"
+import { useOrders } from "../hooks/useOrders"
 
 const WaiterDashboard = () => {
 
@@ -11,6 +12,7 @@ const WaiterDashboard = () => {
     const [tablesLoading, setTablesLoading] = useState(true)
 
     const { calls, loading: callsLoading, resolveCall } = useWaiterCalls(5000);
+    const { orders, loading: ordersLoading } = useOrders(5000);
 
     const activeOrders = orders.filter((order) => order.status !== "served");
 
