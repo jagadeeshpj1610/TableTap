@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { getAllOrders, updateOrderStatus, getOrderBill } from "../api/orderApi"
 import { getAllPayments, updatePaymentStatus } from "../api/paymentApi"
 import { FiRefreshCw } from "react-icons/fi"
+import toast from "react-hot-toast"
 
 const TABS = ["all", "pending", "preparing", "ready", "served"]
 
@@ -48,8 +49,13 @@ const AdminOrderManagement = () => {
     const pendingPayments = payments.filter((p) => p.status === "pending");
 
     const handleConfirmPayment = async (id) => {
-        const updated = await updatePaymentStatus(id, "completed");
-        setPayments(payments.map((p) => p._id === id ? updated : p));
+        try {
+            const updated = await updatePaymentStatus(id, "completed");
+            setPayments(payments.map((p) => p._id === id ? updated : p));
+            toast.success("Payment confirmed");
+        } catch (err) {
+            toast.error("Failed to confirm payment");
+        }
     };
 
     const handleStatusChange = async (id, status) => {
@@ -58,8 +64,9 @@ const AdminOrderManagement = () => {
             setOrders((prev) =>
                 prev.map((o) => (o._id === id ? { ...o, status } : o))
             )
+            toast.success(`Order marked as ${status}`);
         } catch (err) {
-            alert("Failed to update status")
+            toast.error("Failed to update status")
         }
     }
 
@@ -76,10 +83,9 @@ const AdminOrderManagement = () => {
             const bill = await getOrderBill(id)
             setBills((prev) => ({ ...prev, [id]: bill }))
         } catch (err) {
-            alert("Failed to load bill")
+            toast.error("Failed to load bill")
         }
     }
-
     const filtered =
         activeTab === "all"
             ? orders
@@ -136,11 +142,10 @@ const AdminOrderManagement = () => {
                     <button
                         key={tab}
                         onClick={() => setActiveTab(tab)}
-                        className={`font-[Poppins] font-semibold shrink-0 px-4 py-2 rounded-full text-sm capitalize border cursor-pointer transition-colors ${
-                            activeTab === tab
-                                ? "bg-[#2D5F3E] border-[#2D5F3E] text-white"
-                                : "bg-white border-stone-300 text-[#1A1A1A] hover:bg-stone-50"
-                        }`}
+                        className={`font-[Poppins] font-semibold shrink-0 px-4 py-2 rounded-full text-sm capitalize border cursor-pointer transition-colors ${activeTab === tab
+                            ? "bg-[#2D5F3E] border-[#2D5F3E] text-white"
+                            : "bg-white border-stone-300 text-[#1A1A1A] hover:bg-stone-50"
+                            }`}
                     >
                         {tab} ({countFor(tab)})
                     </button>
@@ -229,11 +234,10 @@ const AdminOrderManagement = () => {
                                 </select>
                                 <button
                                     onClick={() => handleToggleBill(order._id)}
-                                    className={`font-[Poppins] font-semibold shrink-0 px-4 py-2 text-sm rounded-xl border cursor-pointer transition-colors ${
-                                        bills[order._id]
-                                            ? "bg-white border-[#2D5F3E] text-[#2D5F3E]"
-                                            : "bg-[#2D5F3E] border-[#2D5F3E] text-white hover:bg-[#244c32]"
-                                    }`}
+                                    className={`font-[Poppins] font-semibold shrink-0 px-4 py-2 text-sm rounded-xl border cursor-pointer transition-colors ${bills[order._id]
+                                        ? "bg-white border-[#2D5F3E] text-[#2D5F3E]"
+                                        : "bg-[#2D5F3E] border-[#2D5F3E] text-white hover:bg-[#244c32]"
+                                        }`}
                                 >
                                     {bills[order._id] ? "Hide Bill" : "View Bill"}
                                 </button>
