@@ -4,7 +4,7 @@ const defaultApi = import.meta.env.VITE_API_URL;
 
 const getMenu = async () => {
     try {
-        const response = await fetch(`${defaultApi}/menu`)
+        const response = await fetch(`${defaultApi}/api/menu`)
         return await response.json();
     } catch (error) {
         console.error("failed to fetch the menu:", error.message);
@@ -13,7 +13,7 @@ const getMenu = async () => {
 
 const createMenuItem = async (formData) => {
     try {
-        const response = await fetch(`${defaultApi}/menu`, {
+        const response = await fetch(`${defaultApi}/api/menu`, {
             method: "POST",
             headers: { "content-type": "application/json", ...authHeader() },
             body: JSON.stringify(formData)
@@ -26,7 +26,7 @@ const createMenuItem = async (formData) => {
 
 const updateMenuItem = async (id, formData) => {
     try {
-        const response = await fetch(`${defaultApi}/menu/${id}`, {
+        const response = await fetch(`${defaultApi}/api/menu/${id}`, {
             method: "PUT",
             headers: { "content-type": "application/json", ...authHeader() },
             body: JSON.stringify(formData)
@@ -39,7 +39,7 @@ const updateMenuItem = async (id, formData) => {
 
 const deleteMenuItem = async (id) => {
     try {
-        const response = await fetch(`${defaultApi}/menu/${id}`, {
+        const response = await fetch(`${defaultApi}/api/menu/${id}`, {
             method: "DELETE",
             headers: { ...authHeader() }
         });

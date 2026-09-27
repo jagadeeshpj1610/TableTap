@@ -4,7 +4,7 @@ const defaultApi = import.meta.env.VITE_API_URL;
 
 const createWaiterCall = async (tableNumber) => {
     try {
-        const response = await fetch(`${defaultApi}/waiter-call/call`, {
+        const response = await fetch(`${defaultApi}/api/waiter-call/call`, {
             method: "POST",
             headers: { "content-type": "application/json" },
             body: JSON.stringify({ tableNumber })
@@ -17,7 +17,7 @@ const createWaiterCall = async (tableNumber) => {
 
 const getAllWaiterCalls = async () => {
     try {
-        const response = await fetch(`${defaultApi}/waiter-call`, {
+        const response = await fetch(`${defaultApi}/api/waiter-call`, {
             headers: { ...authHeader() }
         })
         return await response.json();
@@ -28,7 +28,7 @@ const getAllWaiterCalls = async () => {
 
 const resolveWaiterCall = async (id) => {
     try {
-        const response = await fetch(`${defaultApi}/waiter-call/${id}/resolve`, {
+        const response = await fetch(`${defaultApi}/api/waiter-call/${id}/resolve`, {
             method: "PATCH",
             headers: { ...authHeader() }
         })

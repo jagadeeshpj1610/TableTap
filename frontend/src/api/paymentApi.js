@@ -4,7 +4,7 @@ const defaultApi = import.meta.env.VITE_API_URL;
 
 const createPayment = async (orderId, amount, paymentMethod) => {
     try {
-        const response = await fetch(`${defaultApi}/payments`, {
+        const response = await fetch(`${defaultApi}/api/payments`, {
             method: "POST",
             headers: { "Content-type": "application/json" },
             body: JSON.stringify({ orderId, amount, paymentMethod })
@@ -17,7 +17,7 @@ const createPayment = async (orderId, amount, paymentMethod) => {
 
 const updatePaymentStatus = async (paymentId, status) => {
     try {
-        const response = await fetch(`${defaultApi}/payments/${paymentId}/status`, {
+        const response = await fetch(`${defaultApi}/api/payments/${paymentId}/status`, {
             method: "PATCH",
             headers: { "Content-type": "application/json", ...authHeader() },
             body: JSON.stringify({ status })
@@ -30,7 +30,7 @@ const updatePaymentStatus = async (paymentId, status) => {
 
 const getAllPayments = async () => {
     try {
-        const response = await fetch(`${defaultApi}/payments`, {
+        const response = await fetch(`${defaultApi}/api/payments`, {
             headers: { ...authHeader() }
         });
         return await response.json();

@@ -1,7 +1,7 @@
 const defaultApi = import.meta.env.VITE_API_URL;
 
 const login = async (role, password) => {
-    const response = await fetch(`${defaultApi}/auth/login`, {
+    const response = await fetch(`${defaultApi}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ role, password })

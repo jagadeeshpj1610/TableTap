@@ -28,7 +28,7 @@ const getAllOrders = async () => {
 
 const getOrderById = async (id) => {
     try {
-        const response = await fetch(`${defaultApi}/orders/${id}`);
+        const response = await fetch(`${defaultApi}/api/orders/${id}`);
         return await response.json();
     } catch (error) {
         console.error("failed to fetch the order:", error);
@@ -37,7 +37,7 @@ const getOrderById = async (id) => {
 
 const getOrderBill = async (id) => {
     try {
-        const response = await fetch(`${defaultApi}/orders/${id}/bill`)
+        const response = await fetch(`${defaultApi}/api/orders/${id}/bill`)
         return await response.json()
     } catch (error) {
         console.error("get the order bill was failed : ", error);
@@ -46,7 +46,7 @@ const getOrderBill = async (id) => {
 
 const updateOrderStatus = async (id, status) => {
     try {
-        const response = await fetch(`${defaultApi}/orders/${id}/status`, {
+        const response = await fetch(`${defaultApi}/api/orders/${id}/status`, {
             method: "PATCH",
             headers: { "content-type": "application/json", ...authHeader() },
             body: JSON.stringify({ status })
