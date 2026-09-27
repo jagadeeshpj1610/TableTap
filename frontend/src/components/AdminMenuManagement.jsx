@@ -33,26 +33,51 @@ const AdminMenuManagement = () => {
         fetchData()
     }, [])
 
-    const handleSubmit = async () => {
-        if (editingId) {
-            const updatedItem = await updateMenuItem(editingId, formData);
-            setMenuItems(menuItems.map((item) => item._id === editingId ? updatedItem : item));
-            setEditingId(null);
-            toast.success("Menu item updated successfully!");
-        } else {
-            const newItem = await createMenuItem(formData);
-            setMenuItems([...menuItems, newItem]);
-            toast.success("Menu item added successfully!");
+    const validateForm = () => {
+        if (!formData.name.trim()) {
+            toast.error("Please enter a name");
+            return false;
         }
-        setFormData({ name: "", price: "", category: "", description: "", isAvailable: true, isVeg: true, imageUrl: "" });
+        if (!formData.price || Number(formData.price) <= 0) {
+            toast.error("Please enter a valid price");
+            return false;
+        }
+        if (!formData.category) {
+            toast.error("Please select a category");
+            return false;
+        }
+        return true;
+    };
+
+    const handleSubmit = async () => {
+        if (!validateForm()) return;
+        try {
+            if (editingId) {
+                const updatedItem = await updateMenuItem(editingId, formData);
+                setMenuItems(menuItems.map((item) => item._id === editingId ? updatedItem : item));
+                setEditingId(null);
+                toast.success("Menu item updated successfully!");
+            } else {
+                const newItem = await createMenuItem(formData);
+                setMenuItems([...menuItems, newItem]);
+                toast.success("Menu item added successfully!");
+            }
+            setFormData({ name: "", price: "", category: "", description: "", isAvailable: true, isVeg: true, imageUrl: "" });
+        } catch (err) {
+            toast.error(editingId ? "Failed to update item" : "Failed to add item");
+        }
     };
 
     const handleToggleAvailability = async (item) => {
-        const updatedItem = await updateMenuItem(item._id, { ...item, isAvailable: !item.isAvailable })
-        setMenuItems(menuItems.map((menuItem =>
-            menuItem._id === item._id ? updatedItem : menuItem
-        )))
-        toast.success(updatedItem.isAvailable ? "Marked as available" : "Marked as unavailable");
+        try {
+            const updatedItem = await updateMenuItem(item._id, { ...item, isAvailable: !item.isAvailable })
+            setMenuItems(menuItems.map((menuItem =>
+                menuItem._id === item._id ? updatedItem : menuItem
+            )))
+            toast.success(updatedItem.isAvailable ? "Marked as available" : "Marked as unavailable");
+        } catch (err) {
+            toast.error("Failed to update availability");
+        }
     }
 
     const handleDeleteItem = async (id) => {

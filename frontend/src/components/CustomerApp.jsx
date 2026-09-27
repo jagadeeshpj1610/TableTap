@@ -77,6 +77,10 @@ function CustomerApp() {
     };
 
     const placeOrder = async () => {
+        if (cartItems.length === 0) {
+            toast.error("Your cart is empty");
+            return;
+        }
         const orderItems = cartItems.map((item) => ({
             menuItem: item.menuItem,
             quantity: item.quantity,

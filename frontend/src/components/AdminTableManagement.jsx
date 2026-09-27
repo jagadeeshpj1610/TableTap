@@ -25,11 +25,16 @@ const AdminTableManagement = () => {
     }, [])
 
     const handleAddTable = async () => {
+        const trimmed = newTableNumber.trim();
+        if (!trimmed || Number(trimmed) <= 0) {
+            toast.error("Please enter a valid table number");
+            return;
+        }
         try {
-            const result = await createTable(newTableNumber, `table-${newTableNumber}`);
+            const result = await createTable(trimmed, `table-${trimmed}`);
             setTables([...tables, result.newOne]);
             setNewTableNumber("");
-            toast.success(`Table ${newTableNumber} added`);
+            toast.success(`Table ${trimmed} added`);
         } catch (err) {
             toast.error("Failed to add table");
         }

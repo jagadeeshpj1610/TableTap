@@ -20,11 +20,14 @@ const AdminOrderManagement = () => {
     const [payments, setPayments] = useState([])
 
     const { orders, setOrders, loading, error, refetch: fetchOrders } = useOrders(5000);
-
     useEffect(() => {
         const fetchPayments = async () => {
-            const data = await getAllPayments();
-            setPayments(data);
+            try {
+                const data = await getAllPayments();
+                setPayments(data);
+            } catch (err) {
+                toast.error("Failed to load payments");
+            }
         };
         fetchPayments();
     }, []);
