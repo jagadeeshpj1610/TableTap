@@ -13,6 +13,9 @@ const AdminMenuManagement = () => {
         isVeg: true,
         imageUrl: ""
     });
+
+    const CATEGORIES = ["Starters", "Main Course", "Biryani", "Snacks", "Drinks", "Desserts"];
+
     const [editingId, setEditingId] = useState(null);
     useEffect(() => {
         const fetchData = async () => {
@@ -89,13 +92,16 @@ const AdminMenuManagement = () => {
                         onChange={(e) => setFormData({ ...formData, price: e.target.value })}
                         className="font-[Poppins] border border-stone-300 rounded-xl px-3 py-2.5 text-sm text-[#1A1A1A] focus:outline-none focus:ring-2 focus:ring-[#2D5F3E]"
                     />
-                    <input
-                        type="text"
-                        placeholder="Category"
+                    <select
                         value={formData.category}
                         onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                        className="font-[Poppins] border border-stone-300 rounded-xl px-3 py-2.5 text-sm text-[#1A1A1A] focus:outline-none focus:ring-2 focus:ring-[#2D5F3E]"
-                    />
+                        className="font-[Poppins] border border-stone-300 rounded-xl px-3 py-2.5 text-sm text-[#1A1A1A] bg-white cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#2D5F3E]"
+                    >
+                        <option value="" disabled>Select category</option>
+                        {CATEGORIES.map((cat) => (
+                            <option key={cat} value={cat}>{cat}</option>
+                        ))}
+                    </select>
                     <input
                         type="text"
                         placeholder="Image URL"
@@ -136,11 +142,10 @@ const AdminMenuManagement = () => {
                         <div className="flex justify-between items-start gap-2">
                             <h3 className="font-[Poppins] font-bold text-[#1A1A1A]">{item.name}</h3>
                             <span
-                                className={`font-[Poppins] shrink-0 px-2.5 py-1 rounded-full text-xs font-semibold ring-1 ring-inset ${
-                                    item.isAvailable
-                                        ? "bg-green-50 text-[#2D5F3E] ring-green-200"
-                                        : "bg-red-50 text-[#8B2635] ring-red-200"
-                                }`}
+                                className={`font-[Poppins] shrink-0 px-2.5 py-1 rounded-full text-xs font-semibold ring-1 ring-inset ${item.isAvailable
+                                    ? "bg-green-50 text-[#2D5F3E] ring-green-200"
+                                    : "bg-red-50 text-red-700 ring-red-200"
+                                    }`}
                             >
                                 {item.isAvailable ? "Available" : "Unavailable"}
                             </span>
