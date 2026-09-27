@@ -5,11 +5,18 @@ import toast from "react-hot-toast"
 
 const AdminWaiterCalls = () => {
     const [calls, setCalls] = useState([])
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         const fetchData = async () => {
-            const data = await getAllWaiterCalls();
-            setCalls(data);
+            try {
+                const data = await getAllWaiterCalls();
+                setCalls(data);
+            } catch (err) {
+                toast.error("Failed to load waiter calls");
+            } finally {
+                setLoading(false)
+            }
         };
         fetchData();
         const interval = setInterval(fetchData, 5000);
@@ -39,7 +46,22 @@ const AdminWaiterCalls = () => {
                 </p>
             </div>
 
-            {pendingCalls.length === 0 ? (
+            {loading ? (
+                <div className="space-y-3">
+                    {Array.from({ length: 3 }).map((_, i) => (
+                        <div key={i} className="bg-white rounded-2xl p-4 flex items-center justify-between gap-4 shadow-sm animate-pulse">
+                            <div className="flex items-center gap-4">
+                                <div className="w-11 h-11 rounded-xl bg-stone-200" />
+                                <div>
+                                    <div className="h-4 w-32 bg-stone-200 rounded mb-2" />
+                                    <div className="h-3 w-16 bg-stone-200 rounded" />
+                                </div>
+                            </div>
+                            <div className="h-9 w-20 bg-stone-200 rounded-full" />
+                        </div>
+                    ))}
+                </div>
+            ) : pendingCalls.length === 0 ? (
                 <div className="bg-white rounded-2xl shadow-sm py-16 text-center">
                     <p className="font-[Poppins] text-[#767676] text-sm">No pending waiter calls.</p>
                 </div>

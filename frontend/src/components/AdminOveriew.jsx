@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { getAllOrders } from "../api/orderApi"
 import { FiRefreshCw, FiFileText, FiDollarSign, FiClock, FiTrendingUp } from "react-icons/fi"
+import toast from "react-hot-toast"
 
 const statusStyles = {
     pending: "bg-amber-100 text-amber-800",
@@ -16,7 +17,7 @@ const AdminOverview = () => {
     const [orders, setOrders] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState("")
-    
+
     const fetchOrders = async () => {
         try {
             setLoading(true)
@@ -75,8 +76,39 @@ const AdminOverview = () => {
                     </button>
                 </div>
 
-                {loading && <p className="font-[Poppins] text-[#767676]">Loading...</p>}
-                {error && !loading && (
+                {loading && (
+                    <>
+                        <div className="grid gap-4 sm:gap-5 grid-cols-2 lg:grid-cols-4 mb-8">
+                            {Array.from({ length: 4 }).map((_, i) => (
+                                <div key={i} className="bg-white rounded-2xl p-4 sm:p-5 shadow-sm flex items-center justify-between animate-pulse">
+                                    <div className="space-y-2">
+                                        <div className="h-3 w-20 bg-stone-200 rounded" />
+                                        <div className="h-7 w-16 bg-stone-200 rounded" />
+                                    </div>
+                                    <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-stone-200 shrink-0" />
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className="bg-white rounded-2xl shadow-sm p-5 sm:p-6">
+                            <div className="h-5 w-32 bg-stone-200 rounded mb-4 animate-pulse" />
+                            <div className="space-y-2">
+                                {Array.from({ length: 4 }).map((_, i) => (
+                                    <div key={i} className="flex items-center justify-between gap-4 px-4 py-3 rounded-xl bg-[#FAF7F2] animate-pulse">
+                                        <div className="flex items-center gap-4">
+                                            <div className="w-11 h-11 rounded-lg bg-stone-200" />
+                                            <div className="space-y-1.5">
+                                                <div className="h-3.5 w-32 bg-stone-200 rounded" />
+                                                <div className="h-3 w-20 bg-stone-200 rounded" />
+                                            </div>
+                                        </div>
+                                        <div className="h-5 w-14 bg-stone-200 rounded-full" />
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </>
+                )}                {error && !loading && (
                     <p className="font-[Poppins] text-[#8B2635] bg-red-50 border border-red-200 rounded-lg px-4 py-3 text-sm">
                         {error}
                     </p>

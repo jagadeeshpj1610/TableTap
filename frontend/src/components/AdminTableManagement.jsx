@@ -7,12 +7,19 @@ import toast from "react-hot-toast"
 const AdminTableManagement = () => {
     const [tables, setTables] = useState([])
     const [newTableNumber, setNewTableNumber] = useState("")
+    const [loading, setLoading] = useState(true)
     const qrRefs = useRef({})
 
     useEffect(() => {
         const fetchData = async () => {
-            const data = await getAllTables()
-            setTables(data)
+            try {
+                const data = await getAllTables()
+                setTables(data)
+            } catch (err) {
+                toast.error("Failed to load tables")
+            } finally {
+                setLoading(false)
+            }
         };
         fetchData()
     }, [])
@@ -135,55 +142,71 @@ const AdminTableManagement = () => {
                 </button>
             </div>
 
-            <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
-                {tables.map((table) => (
-                    <div
-                        key={table._id}
-                        className="bg-white rounded-2xl border border-stone-200 p-4 shadow-sm flex flex-col items-center text-center gap-3"
-                    >
-                        <div>
-                            <p className="font-[Poppins] text-2xl font-extrabold text-[#1A1A1A]">
-                                {table.tableNumber}
-                            </p>
-                            <span
-                                className={`font-[Poppins] mt-1.5 inline-block px-2.5 py-1 rounded-full text-xs font-semibold capitalize ring-1 ring-inset ${table.status === "available"
+            {loading ? (
+                <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
+                    {Array.from({ length: 4 }).map((_, i) => (
+                        <div key={i} className="bg-white rounded-2xl border border-stone-200 p-4 flex flex-col items-center gap-3 animate-pulse">
+                            <div className="h-8 w-10 bg-stone-200 rounded" />
+                            <div className="h-5 w-16 bg-stone-200 rounded-full" />
+                            <div className="w-[120px] h-[120px] bg-stone-200 rounded-xl" />
+                            <div className="flex gap-2 w-full">
+                                <div className="h-8 flex-1 bg-stone-200 rounded-full" />
+                                <div className="h-8 flex-1 bg-stone-200 rounded-full" />
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            ) : (
+                <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
+                    {tables.map((table) => (
+                        <div
+                            key={table._id}
+                            className="bg-white rounded-2xl border border-stone-200 p-4 shadow-sm flex flex-col items-center text-center gap-3"
+                        >
+                            <div>
+                                <p className="font-[Poppins] text-2xl font-extrabold text-[#1A1A1A]">
+                                    {table.tableNumber}
+                                </p>
+                                <span
+                                    className={`font-[Poppins] mt-1.5 inline-block px-2.5 py-1 rounded-full text-xs font-semibold capitalize ring-1 ring-inset ${table.status === "available"
                                         ? "bg-green-50 text-[#2D5F3E] ring-green-200"
                                         : "bg-amber-50 text-amber-700 ring-amber-200"
-                                    }`}
-                            >
-                                {table.status}
-                            </span>
-                        </div>
+                                        }`}
+                                >
+                                    {table.status}
+                                </span>
+                            </div>
 
-                        <div
-                            ref={(el) => (qrRefs.current[table._id] = el)}
-                            className="p-2 bg-white rounded-xl border border-stone-100"
-                        >
-                            <QRCodeSVG
-                                value={`http://localhost:5173/?table=${table.tableNumber}`}
-                                size={120}
-                            />
-                        </div>
+                            <div
+                                ref={(el) => (qrRefs.current[table._id] = el)}
+                                className="p-2 bg-white rounded-xl border border-stone-100"
+                            >
+                                <QRCodeSVG
+                                    value={`http://localhost:5173/?table=${table.tableNumber}`}
+                                    size={120}
+                                />
+                            </div>
 
-                        <div className="flex gap-2 w-full">
-                            <button
-                                onClick={() => handleDownload(table)}
-                                className="font-[Poppins] font-semibold flex-1 flex items-center justify-center gap-1.5 text-xs border border-stone-300 text-[#1A1A1A] px-3 py-2 rounded-full cursor-pointer hover:bg-stone-50 transition-colors"
-                            >
-                                <FiDownload size={13} />
-                                Save
-                            </button>
-                            <button
-                                onClick={() => handlePrint(table)}
-                                className="font-[Poppins] font-semibold flex-1 flex items-center justify-center gap-1.5 text-xs bg-[#2D5F3E] hover:bg-[#244c32] text-white px-3 py-2 rounded-full cursor-pointer transition-colors"
-                            >
-                                <FiPrinter size={13} />
-                                Print
-                            </button>
+                            <div className="flex gap-2 w-full">
+                                <button
+                                    onClick={() => handleDownload(table)}
+                                    className="font-[Poppins] font-semibold flex-1 flex items-center justify-center gap-1.5 text-xs border border-stone-300 text-[#1A1A1A] px-3 py-2 rounded-full cursor-pointer hover:bg-stone-50 transition-colors"
+                                >
+                                    <FiDownload size={13} />
+                                    Save
+                                </button>
+                                <button
+                                    onClick={() => handlePrint(table)}
+                                    className="font-[Poppins] font-semibold flex-1 flex items-center justify-center gap-1.5 text-xs bg-[#2D5F3E] hover:bg-[#244c32] text-white px-3 py-2 rounded-full cursor-pointer transition-colors"
+                                >
+                                    <FiPrinter size={13} />
+                                    Print
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                ))}
-            </div>
+                    ))}
+                </div>
+            )}
         </div>
     )
 }

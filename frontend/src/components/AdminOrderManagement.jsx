@@ -153,7 +153,27 @@ const AdminOrderManagement = () => {
                 ))}
             </div>
 
-            {loading && <p className="font-[Poppins] text-[#767676]">Loading orders...</p>}
+            {loading && (
+                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 items-start">
+                    {Array.from({ length: 3 }).map((_, i) => (
+                        <div key={i} className="bg-white rounded-2xl border border-stone-200 p-4 flex flex-col gap-3 shadow-sm animate-pulse">
+                            <div className="flex justify-between items-start">
+                                <div className="h-5 w-24 bg-stone-200 rounded" />
+                                <div className="h-5 w-16 bg-stone-200 rounded-full" />
+                            </div>
+                            <div className="space-y-2 py-1">
+                                <div className="h-3 bg-stone-200 rounded w-full" />
+                                <div className="h-3 bg-stone-200 rounded w-2/3" />
+                            </div>
+                            <div className="h-4 bg-stone-200 rounded w-1/3" />
+                            <div className="flex gap-2">
+                                <div className="h-9 flex-1 bg-stone-200 rounded-xl" />
+                                <div className="h-9 w-20 bg-stone-200 rounded-xl" />
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
             {error && !loading && (
                 <p className="font-[Poppins] text-[#8B2635] bg-red-50 border border-red-200 rounded-lg px-4 py-3 text-sm">
                     {error}

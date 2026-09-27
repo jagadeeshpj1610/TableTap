@@ -5,11 +5,18 @@ import toast from "react-hot-toast"
 
 const KitchenDashboard = () => {
     const [orders, setOrders] = useState([])
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         const fetchData = async () => {
-            const data = await getAllOrders()
-            setOrders(data)
+            try {
+                const data = await getAllOrders()
+                setOrders(data)
+            } catch (err) {
+                toast.error("Failed to load orders")
+            } finally {
+                setLoading(false)
+            }
         };
         fetchData()
 
@@ -91,7 +98,23 @@ const KitchenDashboard = () => {
                     </div>
                 </div>
 
-                {activeOrders.length === 0 ? (
+                {loading ? (
+                    <div className="grid gap-4 sm:gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+                        {Array.from({ length: 3 }).map((_, i) => (
+                            <div key={i} className="bg-[#2A2E32] rounded-2xl p-5 min-h-[220px] flex flex-col animate-pulse">
+                                <div className="flex justify-between items-start mb-3">
+                                    <div className="h-5 w-24 bg-neutral-700 rounded" />
+                                    <div className="h-5 w-16 bg-neutral-700 rounded-full" />
+                                </div>
+                                <div className="flex-1 space-y-2">
+                                    <div className="h-4 bg-neutral-700 rounded w-full" />
+                                    <div className="h-4 bg-neutral-700 rounded w-2/3" />
+                                </div>
+                                <div className="h-10 bg-neutral-700 rounded-full mt-4" />
+                            </div>
+                        ))}
+                    </div>
+                ) : activeOrders.length === 0 ? (
                     <div className="bg-[#2A2E32] rounded-2xl py-16 text-center shadow-sm">
                         <FiCheckCircle className="mx-auto text-neutral-600 mb-3" size={32} />
                         <p className="font-[Poppins] text-neutral-400 text-sm">No active orders right now.</p>
