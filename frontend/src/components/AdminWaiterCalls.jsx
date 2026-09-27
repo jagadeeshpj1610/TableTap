@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { getAllWaiterCalls, resolveWaiterCall } from "../api/waiterApi"
 import { FiBell } from "react-icons/fi"
+import toast from "react-hot-toast"
 
 const AdminWaiterCalls = () => {
     const [calls, setCalls] = useState([])
@@ -16,8 +17,13 @@ const AdminWaiterCalls = () => {
     }, [])
 
     const handleResolve = async (id) => {
-        const updatedCall = await resolveWaiterCall(id);
-        setCalls(calls.map((call) => call._id === id ? updatedCall : call));
+        try {
+            const updatedCall = await resolveWaiterCall(id);
+            setCalls(calls.map((call) => call._id === id ? updatedCall : call));
+            toast.success(`Table ${updatedCall.tableNumber} resolved`);
+        } catch (err) {
+            toast.error("Failed to resolve call");
+        }
     };
 
     const pendingCalls = calls.filter((call) => call.status !== "resolved");
