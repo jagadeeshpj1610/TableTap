@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { getMenu, createMenuItem, updateMenuItem, deleteMenuItem } from "../api/menuApi";
 import { FiEdit2, FiTrash2 } from "react-icons/fi"
+import toast from "react-hot-toast";
 
 const AdminMenuManagement = () => {
     const [menuItems, setMenuItems] = useState([])
@@ -30,9 +31,11 @@ const AdminMenuManagement = () => {
             const updatedItem = await updateMenuItem(editingId, formData);
             setMenuItems(menuItems.map((item) => item._id === editingId ? updatedItem : item));
             setEditingId(null);
+            toast.success("Menu item updated successfully!");
         } else {
             const newItem = await createMenuItem(formData);
             setMenuItems([...menuItems, newItem]);
+            toast.success("Menu item added successfully!");
         }
         setFormData({ name: "", price: "", category: "", description: "", isAvailable: true, isVeg: true, imageUrl: "" });
     };
@@ -42,11 +45,13 @@ const AdminMenuManagement = () => {
         setMenuItems(menuItems.map((menuItem =>
             menuItem._id === item._id ? updatedItem : menuItem
         )))
+        toast.success(updatedItem.isAvailable ? "Marked as available" : "Marked as unavailable");
     }
 
     const handleDeleteItem = async (id) => {
         const deletedItem = await deleteMenuItem(id);
         setMenuItems(menuItems.filter((item) => item._id !== id))
+        toast.success("Item deleted successfully!");
     }
 
     const handleEditClick = (item) => {
