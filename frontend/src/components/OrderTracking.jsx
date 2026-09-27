@@ -19,8 +19,12 @@ const OrderTracking = ({ currentOrder, onClose, callWaiter, viewBill, bill }) =>
 
     useEffect(() => {
         const interval = setInterval(async () => {
-            const updatedOrder = await getOrderById(currentOrder._id);
-            setLiveOrder(updatedOrder);
+            try {
+                const updatedOrder = await getOrderById(currentOrder._id);
+                setLiveOrder(updatedOrder);
+            } catch (err) {
+                toast.error("Failed to fetch order status. Please try again.");
+            }
         }, 5000);
 
         return () => clearInterval(interval);
@@ -90,8 +94,8 @@ const OrderTracking = ({ currentOrder, onClose, callWaiter, viewBill, bill }) =>
                             }}
                             disabled={waiterCalled}
                             className={`font-[Poppins] font-medium text-sm px-4 py-2 rounded-full cursor-pointer transition-colors ${waiterCalled
-                                    ? "bg-neutral-100 text-neutral-400 cursor-not-allowed"
-                                    : "bg-white border border-[#2D5F3E] text-[#2D5F3E] hover:bg-[#2D5F3E]/5"
+                                ? "bg-neutral-100 text-neutral-400 cursor-not-allowed"
+                                : "bg-white border border-[#2D5F3E] text-[#2D5F3E] hover:bg-[#2D5F3E]/5"
                                 }`}
                         >
                             {waiterCalled ? "Waiter Called ✓" : "Call Waiter"}
