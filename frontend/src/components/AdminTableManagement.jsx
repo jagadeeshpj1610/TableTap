@@ -182,7 +182,7 @@ const AdminTableManagement = () => {
                                 className="p-2 bg-white rounded-xl border border-stone-100"
                             >
                                 <QRCodeSVG
-                                    value={`http://localhost:5173/?table=${table.tableNumber}`}
+                                    value={`${import.meta.env.VITE_CUSTOMER_URL}/?table=${table.tableNumber}`}
                                     size={120}
                                 />
                             </div>
