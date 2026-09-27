@@ -1,7 +1,5 @@
-import { useState, useEffect } from "react"
-import { getAllOrders } from "../api/orderApi"
 import { FiRefreshCw, FiFileText, FiDollarSign, FiClock, FiTrendingUp } from "react-icons/fi"
-import toast from "react-hot-toast"
+import { useOrders } from "../hooks/useOrders"
 
 const statusStyles = {
     pending: "bg-amber-100 text-amber-800",
@@ -14,27 +12,9 @@ const isToday = (date) =>
     new Date(date).toDateString() === new Date().toDateString()
 
 const AdminOverview = () => {
-    const [orders, setOrders] = useState([])
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState("")
 
-    const fetchOrders = async () => {
-        try {
-            setLoading(true)
-            setError("")
-            const data = await getAllOrders()
-            setOrders(data)
-        } catch (err) {
-            setError("Could not load orders. Is the backend running?")
-            toast.error("Failed to refresh")
-        } finally {
-            setLoading(false)
-        }
-    }
 
-    useEffect(() => {
-        fetchOrders()
-    }, [])
+    const { orders, loading, error, refetch: fetchOrders } = useOrders(5000);
 
     const todaysOrders = orders.filter((o) => isToday(o.createdAt))
     const todaysSales = todaysOrders.reduce((sum, o) => sum + o.totalAmount, 0)
