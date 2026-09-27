@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { getOrderById } from "../api/orderApi";
 import { FiChevronUp } from "react-icons/fi";
 import PaymentSection from "./PaymentSection";
+import toast from "react-hot-toast"
 
 const STEPS = [
     { key: "pending", label: "Received" },
@@ -52,25 +53,22 @@ const OrderTracking = ({ currentOrder, onClose, callWaiter, viewBill, bill }) =>
                                 <div key={step.key} className="flex items-center flex-1 last:flex-none">
                                     <div className="flex flex-col items-center gap-1">
                                         <div
-                                            className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-[Poppins] font-bold transition-colors duration-300 ${
-                                                isDone ? "bg-[#2D5F3E] text-white" : "bg-neutral-200 text-neutral-400"
-                                            }`}
+                                            className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-[Poppins] font-bold transition-colors duration-300 ${isDone ? "bg-[#2D5F3E] text-white" : "bg-neutral-200 text-neutral-400"
+                                                }`}
                                         >
                                             {isDone ? "✓" : i + 1}
                                         </div>
                                         <span
-                                            className={`font-[Poppins] text-[10px] whitespace-nowrap ${
-                                                isDone ? "text-[#2D5F3E] font-semibold" : "text-neutral-400"
-                                            }`}
+                                            className={`font-[Poppins] text-[10px] whitespace-nowrap ${isDone ? "text-[#2D5F3E] font-semibold" : "text-neutral-400"
+                                                }`}
                                         >
                                             {step.label}
                                         </span>
                                     </div>
                                     {!isLast && (
                                         <div
-                                            className={`h-0.5 flex-1 mx-1 -mt-4 transition-colors duration-300 ${
-                                                i < currentIndex ? "bg-[#2D5F3E]" : "bg-neutral-200"
-                                            }`}
+                                            className={`h-0.5 flex-1 mx-1 -mt-4 transition-colors duration-300 ${i < currentIndex ? "bg-[#2D5F3E]" : "bg-neutral-200"
+                                                }`}
                                         />
                                     )}
                                 </div>
@@ -83,15 +81,18 @@ const OrderTracking = ({ currentOrder, onClose, callWaiter, viewBill, bill }) =>
                     <div className="px-4 pb-4 pt-1 border-t border-stone-100 flex flex-col gap-2">
                         <button
                             onClick={async () => {
-                                await callWaiter();
-                                setWaiterCalled(true);
+                                try {
+                                    await callWaiter();
+                                    setWaiterCalled(true);
+                                } catch (err) {
+                                    toast.error("Failed to call waiter. Please try again.");
+                                }
                             }}
                             disabled={waiterCalled}
-                            className={`font-[Poppins] font-medium text-sm px-4 py-2 rounded-full cursor-pointer transition-colors ${
-                                waiterCalled
+                            className={`font-[Poppins] font-medium text-sm px-4 py-2 rounded-full cursor-pointer transition-colors ${waiterCalled
                                     ? "bg-neutral-100 text-neutral-400 cursor-not-allowed"
                                     : "bg-white border border-[#2D5F3E] text-[#2D5F3E] hover:bg-[#2D5F3E]/5"
-                            }`}
+                                }`}
                         >
                             {waiterCalled ? "Waiter Called ✓" : "Call Waiter"}
                         </button>
