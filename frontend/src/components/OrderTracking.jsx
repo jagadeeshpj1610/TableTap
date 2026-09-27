@@ -18,6 +18,8 @@ const OrderTracking = ({ currentOrder, onClose, callWaiter, viewBill, bill }) =>
     const [showBill, setShowBill] = useState(false);
 
     useEffect(() => {
+        if (liveOrder.status === "served") return;   
+
         let hasErrored = false;
         const interval = setInterval(async () => {
             try {
@@ -33,7 +35,7 @@ const OrderTracking = ({ currentOrder, onClose, callWaiter, viewBill, bill }) =>
         }, 5000);
 
         return () => clearInterval(interval);
-    }, [currentOrder._id]);
+    }, [currentOrder._id, liveOrder.status]);
 
     const currentIndex = STEPS.findIndex((s) => s.key === liveOrder.status);
 

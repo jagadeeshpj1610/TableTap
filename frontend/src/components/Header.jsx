@@ -6,7 +6,7 @@ const Header = ({ cartCount, onCartClick, tableNumber }) => {
 
     return (
         <div className="bg-[#1A1A1A] px-4 sm:px-6 py-4 sm:py-5 flex justify-between items-center">
-            <div onClick={() => navigate("/")} className="cursor-pointer">
+            <div onClick={() => navigate(`/?table=${tableNumber}`)} className="cursor-pointer">
                 <h1 className="font-[Poppins] font-extrabold text-2xl sm:text-3xl text-white leading-tight tracking-tight">
                     TableTap
                 </h1>
