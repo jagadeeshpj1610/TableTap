@@ -4,6 +4,7 @@ import { getAllPayments, updatePaymentStatus } from "../api/paymentApi"
 import { FiRefreshCw } from "react-icons/fi"
 import toast from "react-hot-toast"
 import { useOrders } from "../hooks/useOrders"
+import BillBreakdown from "./billBreakdown"
 
 const TABS = ["all", "pending", "preparing", "ready", "served"]
 
@@ -249,26 +250,7 @@ const AdminOrderManagement = () => {
                                 </button>
                             </div>
 
-                            {bills[order._id] && (
-                                <div className="font-[Poppins] bg-[#FAF7F2] rounded-xl p-3 text-sm space-y-1.5">
-                                    <div className="flex justify-between text-[#767676]">
-                                        <span>Subtotal</span>
-                                        <span>₹{bills[order._id].subtotal}</span>
-                                    </div>
-                                    <div className="flex justify-between text-[#767676]">
-                                        <span>Tax (5%)</span>
-                                        <span>₹{bills[order._id].tax}</span>
-                                    </div>
-                                    <div className="flex justify-between text-[#767676]">
-                                        <span>Service (10%)</span>
-                                        <span>₹{bills[order._id].serviceCharge}</span>
-                                    </div>
-                                    <div className="flex justify-between font-bold text-[#1A1A1A] border-t border-stone-200 pt-1.5">
-                                        <span>Grand Total</span>
-                                        <span>₹{bills[order._id].total}</span>
-                                    </div>
-                                </div>
-                            )}
+                            {bills[order._id] && <BillBreakdown bill={bills[order._id]} />}
                         </div>
                     ))}
                 </div>

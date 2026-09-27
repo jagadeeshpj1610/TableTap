@@ -3,6 +3,8 @@ import { getOrderById } from "../api/orderApi";
 import { FiChevronUp } from "react-icons/fi";
 import PaymentSection from "./PaymentSection";
 import toast from "react-hot-toast"
+import BillBreakdown from "./billBreakdown";
+
 
 const STEPS = [
     { key: "pending", label: "Received" },
@@ -18,7 +20,7 @@ const OrderTracking = ({ currentOrder, onClose, callWaiter, viewBill, bill }) =>
     const [showBill, setShowBill] = useState(false);
 
     useEffect(() => {
-        if (liveOrder.status === "served") return;   
+        if (liveOrder.status === "served") return;
 
         let hasErrored = false;
         const interval = setInterval(async () => {
@@ -117,14 +119,7 @@ const OrderTracking = ({ currentOrder, onClose, callWaiter, viewBill, bill }) =>
                             {showBill ? "Hide Bill" : "View Bill"}
                         </button>
 
-                        {showBill && bill && (
-                            <div className="bg-[#FAF7F2] p-3 rounded-xl text-sm font-[Poppins]">
-                                <div className="flex justify-between text-[#767676]"><span>Subtotal</span><span>₹{bill.subTotal}</span></div>
-                                <div className="flex justify-between text-[#767676]"><span>Tax</span><span>₹{bill.tax}</span></div>
-                                <div className="flex justify-between text-[#767676]"><span>Service Charge</span><span>₹{bill.serviceCharge}</span></div>
-                                <div className="flex justify-between font-bold text-[#1A1A1A] border-t border-stone-200 mt-1.5 pt-1.5"><span>Total</span><span>₹{bill.total}</span></div>
-                            </div>
-                        )}
+                        {showBill && <BillBreakdown bill={bill} />}
 
                         <PaymentSection currentOrder={currentOrder} />
 
