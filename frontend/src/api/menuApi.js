@@ -8,7 +8,7 @@ const getMenu = async () => {
         return fetchedData;
     } catch (error) {
         console.error("failed to fetch the menu:", error.message);
-
+        throw error;
     }
 }
 
@@ -23,7 +23,7 @@ const createMenuItem = async (formData) => {
         return data
     } catch (error) {
         console.error("failed to create the menu : ", error);
-
+        throw error
     }
 }
 

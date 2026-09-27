@@ -33,7 +33,6 @@ const updatePaymentStatus = async (paymentId, status) => {
 const getAllPayments = async () => {
     try {
         const response = await fetch(`${defaultApi}/payments`);
-        console.log("Fetching payments..., response:", response);
         const data = await response.json();
         return data;
     } catch (error) {

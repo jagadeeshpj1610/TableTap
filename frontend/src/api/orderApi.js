@@ -11,7 +11,6 @@ const createOrder = async (tableNumber, orderItems) => {
             })
         })
         const data = await response.json()
-        console.log("order placed with this data :", data);
         return data
 
     } catch (error) {
@@ -46,7 +45,6 @@ const getOrderBill = async (id) => {
     try {
         const response = await fetch(`${defaultApi}/orders/${id}/bill`)
         const data = await response.json();
-        console.log("bill is fetched", data);
         return data
     } catch (error) {
         console.error("get the order bill was failed : ", error);
