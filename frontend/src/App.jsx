@@ -1,11 +1,11 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import CustomerApp from "./components/CustomerApp"
-import KitchenDashboard from "./components/KitechenDashboard";
+import KitchenDashboard from "./components/KitchenDashboard";
 import AdminLayout from "./components/AdminLayout";
 import AdminMenuManagement from "./components/AdminMenuManagement";
 import AdminOrderManagement from "./components/AdminOrderManagement";
-import AdminOverview from "./components/AdminOveriew";
+import AdminOverview from "./components/AdminOverview";
 import AdminWaiterCalls from "./components/AdminWaiterCalls";
 import AdminTableManagement from "./components/AdminTableManagement";
 import WaiterDashboard from "./components/WaiterDashboard";
