@@ -16,10 +16,13 @@ const PORT = process.env.PORT
 
 connectDB()
 
-app.use(cors())
+app.use(cors({
+    origin: 'https://tabletap.22022cm040.workers.dev/', 
+    credentials: true
+}));
 app.use(express.json())
 
-app.get('/', (req, res) =>  res.send("Api is running"))
+app.get('/', (req, res) => res.send("Api is running"))
 app.use('/api/menu', menuRoutes)
 app.use('/api/orders', orderRoutes);
 app.use('/api/tables', tableRoutes);
@@ -30,4 +33,4 @@ app.use('/api/auth', authRoutes)
 console.log(process.env.PORT);
 
 
-app.listen(PORT, () => console.log("server is running on" ,PORT))
+app.listen(PORT, () => console.log("server is running on", PORT))
