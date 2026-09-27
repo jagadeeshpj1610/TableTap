@@ -22,6 +22,7 @@ function CustomerApp() {
     const [isCartOpen, setIsCartOpen] = useState(false);
     const [currentOrder, setCurrentOrder] = useState(null);
     const [bill, setBill] = useState(null);
+    const [menuLoading, setMenuLoading] = useState(true)
 
 
     const [searchParams] = useSearchParams();
@@ -30,8 +31,14 @@ function CustomerApp() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const data = await getMenu()
-            setMenuItems(data)
+            try {
+                const data = await getMenu()
+                setMenuItems(data)
+            } catch (err) {
+                toast.error("Failed to load menu")
+            } finally {
+                setMenuLoading(false)
+            }
         };
         fetchData()
     }, [])
@@ -111,9 +118,21 @@ function CustomerApp() {
             <Header cartCount={totalCartItems} onCartClick={() => setIsCartOpen(true)} tableNumber={tableNumber} />
             <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
             <CategoryTabs selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
-            {console.log(cartItems)}
 
-            {filteredItems.length === 0 ? (
+            {menuLoading ? (
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 px-4 sm:px-6 py-4">
+                    {Array.from({ length: 8 }).map((_, i) => (
+                        <div key={i} className="bg-white rounded-2xl overflow-hidden border border-stone-100 animate-pulse">
+                            <div className="aspect-[16/10] w-full bg-stone-200" />
+                            <div className="p-2.5 sm:p-3 flex flex-col gap-2">
+                                <div className="h-4 bg-stone-200 rounded w-3/4" />
+                                <div className="h-3 bg-stone-200 rounded w-full" />
+                                <div className="h-5 bg-stone-200 rounded w-1/3 mt-1" />
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            ) : filteredItems.length === 0 ? (
                 <div className="flex flex-col items-center justify-center text-center px-6 py-16">
                     <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center mb-4 shadow-sm">
                         <FiSearch className="text-neutral-400" size={28} />
