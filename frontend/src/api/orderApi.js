@@ -4,7 +4,7 @@ const defaultApi = import.meta.env.VITE_API_URL;
 
 const createOrder = async (tableNumber, orderItems) => {
     try {
-        const response = await fetch(`${defaultApi}/orders`, {
+        const response = await fetch(`${defaultApi}/api/orders`, {
             method: "POST",
             headers: { "Content-type": "application/json" },
             body: JSON.stringify({ tableNumber, items: orderItems })
@@ -17,7 +17,7 @@ const createOrder = async (tableNumber, orderItems) => {
 
 const getAllOrders = async () => {
     try {
-        const response = await fetch(`${defaultApi}/orders`, {
+        const response = await fetch(`${defaultApi}/api/orders`, {
             headers: { ...authHeader() }
         })
         return await response.json();
