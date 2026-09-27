@@ -16,7 +16,7 @@ const createOrder = async (tableNumber, orderItems) => {
 
     } catch (error) {
         console.error("failed to plcae the order : ", error);
-
+        throw error;
     }
 }
 
@@ -27,6 +27,7 @@ const getAllOrders = async () => {
         return data;
     } catch (error) {
         console.error("failed to fetch the orders :", error);
+        throw error;
     }
 }
 
@@ -37,6 +38,7 @@ const getOrderById = async (id) => {
         return data;
     } catch (error) {
         console.error("failed to fetch the order:", error);
+        throw error;
     }
 };
 
@@ -48,20 +50,22 @@ const getOrderBill = async (id) => {
         return data
     } catch (error) {
         console.error("get the order bill was failed : ", error);
+        throw error;
     }
 }
 
 const updateOrderStatus = async (id, status) => {
     try {
         const response = await fetch(`${defaultApi}/orders/${id}/status`, {
-            method : "PATCH",
-            headers : {"content-type" : "application/json"},
-            body: JSON.stringify({status})
+            method: "PATCH",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ status })
         })
         const data = await response.json();
         return data;
     } catch (error) {
-        console.error("failed to update the order status : " , error);
+        console.error("failed to update the order status : ", error);
+        throw error;
     }
 }
 

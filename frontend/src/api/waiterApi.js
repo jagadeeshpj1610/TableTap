@@ -2,43 +2,45 @@ const defaultApi = import.meta.env.VITE_API_URL;
 
 const createWaiterCall = async (tableNumber) => {
     try {
-        const response = await fetch(`${defaultApi}/waiter-call/call`,{
+        const response = await fetch(`${defaultApi}/waiter-call/call`, {
             method: "POST",
-            headers : {"content-type" : "application/json"},
-            body : JSON.stringify({
-                tableNumber : tableNumber
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({
+                tableNumber: tableNumber
             })
         })
         const data = await response.json()
         console.log(data);
         return data
-        
+
     } catch (error) {
         console.error("failed to create a waiter call:", error);
-        
+        throw error;
     }
 }
 
-const getAllWaiterCalls = async() => {
+const getAllWaiterCalls = async () => {
     try {
         const response = await fetch(`${defaultApi}/waiter-call`)
         const data = await response.json();
         return data
     } catch (error) {
         console.error("failed to failed the wauter-calls", error);
+        throw error;
     }
 }
 
-const resolveWaiterCall = async(id) => {
+const resolveWaiterCall = async (id) => {
     try {
-        const response = await fetch(`${defaultApi}/waiter-call/${id}/resolve`,{
-            method : "PATCH"
+        const response = await fetch(`${defaultApi}/waiter-call/${id}/resolve`, {
+            method: "PATCH"
         })
         const data = await response.json();
         return data
     } catch (error) {
         console.error("failed to resolve the waiter call", error);
+        throw error;
     }
 }
 
-export {createWaiterCall, getAllWaiterCalls, resolveWaiterCall}
+export { createWaiterCall, getAllWaiterCalls, resolveWaiterCall }

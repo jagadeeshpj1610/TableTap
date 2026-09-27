@@ -11,6 +11,7 @@ const createPayment = async (orderId, amount, paymentMethod) => {
         return data;
     } catch (error) {
         console.error("failed to create payment:", error);
+        throw error;
     }
 };
 
@@ -25,6 +26,7 @@ const updatePaymentStatus = async (paymentId, status) => {
         return data;
     } catch (error) {
         console.error("failed to update payment status:", error);
+        throw error;
     }
 };
 
@@ -36,6 +38,7 @@ const getAllPayments = async () => {
         return data;
     } catch (error) {
         console.error("failed to fetch payments:", error);
+        throw error;
     }
 };
 

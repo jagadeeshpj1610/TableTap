@@ -38,6 +38,7 @@ const updateMenuItem = async (id, formData) => {
         return data
     } catch (error) {
         console.error("failed to update the menu item : ", error);
+        throw error;
     }
 }
 
@@ -51,6 +52,7 @@ const deleteMenuItem = async (id) => {
         return data;
     } catch (error) {
         console.error("failed to delete the item : ", error);
+        throw error;
     }
 };
 

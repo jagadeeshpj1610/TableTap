@@ -2,11 +2,12 @@ const defaultApi = import.meta.env.VITE_API_URL;
 
 const getAllTables = async () => {
     try {
-        const response = await fetch(`${defaultApi}/tables`); 
+        const response = await fetch(`${defaultApi}/tables`);
         const data = await response.json();
         return data;
     } catch (error) {
         console.error("failed to fetch tables:", error);
+        throw error;
     }
 };
 
@@ -21,8 +22,9 @@ const createTable = async (tableNumber, qrCodeId) => {
         return data;
     } catch (error) {
         console.error("failed to create table:", error);
+        throw error;
     }
 };
 
 
-export {createTable, getAllTables}
+export { createTable, getAllTables }
