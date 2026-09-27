@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react"
 import { getAllTables, createTable } from "../api/tableApi"
 import { QRCodeSVG } from "qrcode.react"
 import { FiDownload, FiPrinter, FiPlus } from "react-icons/fi"
+import toast from "react-hot-toast"
 
 const AdminTableManagement = () => {
     const [tables, setTables] = useState([])
@@ -17,9 +18,14 @@ const AdminTableManagement = () => {
     }, [])
 
     const handleAddTable = async () => {
-        const result = await createTable(newTableNumber, `table-${newTableNumber}`);
-        setTables([...tables, result.newOne]);
-        setNewTableNumber("");
+        try {
+            const result = await createTable(newTableNumber, `table-${newTableNumber}`);
+            setTables([...tables, result.newOne]);
+            setNewTableNumber("");
+            toast.success(`Table ${newTableNumber} added`);
+        } catch (err) {
+            toast.error("Failed to add table");
+        }
     };
 
     const getQrPngDataUrl = (tableId) => {
@@ -50,35 +56,50 @@ const AdminTableManagement = () => {
     }
 
     const handleDownload = async (table) => {
-        const dataUrl = await getQrPngDataUrl(table._id)
-        if (!dataUrl) return
-        const link = document.createElement("a")
-        link.href = dataUrl
-        link.download = `table-${table.tableNumber}-qr.png`
-        link.click()
+        try {
+            const dataUrl = await getQrPngDataUrl(table._id)
+            if (!dataUrl) {
+                toast.error("Could not generate QR code")
+                return
+            }
+            const link = document.createElement("a")
+            link.href = dataUrl
+            link.download = `table-${table.tableNumber}-qr.png`
+            link.click()
+            toast.success("QR code downloaded")
+        } catch (err) {
+            toast.error("Failed to download QR code")
+        }
     }
 
     const handlePrint = async (table) => {
-        const dataUrl = await getQrPngDataUrl(table._id)
-        if (!dataUrl) return
-        const printWindow = window.open("", "_blank", "width=400,height=500")
-        printWindow.document.write(`
-            <html>
-                <head>
-                    <title>Table ${table.tableNumber} QR</title>
-                    <style>
-                        body { display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; margin:0; font-family: Poppins, sans-serif; }
-                        img { width:280px; height:280px; }
-                        p { font-size:20px; font-weight:700; color:#1A1A1A; margin-top:16px; }
-                    </style>
-                </head>
-                <body>
-                    <img src="${dataUrl}" onload="window.print(); window.onafterprint = () => window.close();" />
-                    <p>Table ${table.tableNumber}</p>
-                </body>
-            </html>
-        `)
-        printWindow.document.close()
+        try {
+            const dataUrl = await getQrPngDataUrl(table._id)
+            if (!dataUrl) {
+                toast.error("Could not generate QR code")
+                return
+            }
+            const printWindow = window.open("", "_blank", "width=400,height=500")
+            printWindow.document.write(`
+                <html>
+                    <head>
+                        <title>Table ${table.tableNumber} QR</title>
+                        <style>
+                            body { display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; margin:0; font-family: Poppins, sans-serif; }
+                            img { width:280px; height:280px; }
+                            p { font-size:20px; font-weight:700; color:#1A1A1A; margin-top:16px; }
+                        </style>
+                    </head>
+                    <body>
+                        <img src="${dataUrl}" onload="window.print(); window.onafterprint = () => window.close();" />
+                        <p>Table ${table.tableNumber}</p>
+                    </body>
+                </html>
+            `)
+            printWindow.document.close()
+        } catch (err) {
+            toast.error("Failed to open print window")
+        }
     }
 
     return (
@@ -125,11 +146,10 @@ const AdminTableManagement = () => {
                                 {table.tableNumber}
                             </p>
                             <span
-                                className={`font-[Poppins] mt-1.5 inline-block px-2.5 py-1 rounded-full text-xs font-semibold capitalize ring-1 ring-inset ${
-                                    table.status === "available"
+                                className={`font-[Poppins] mt-1.5 inline-block px-2.5 py-1 rounded-full text-xs font-semibold capitalize ring-1 ring-inset ${table.status === "available"
                                         ? "bg-green-50 text-[#2D5F3E] ring-green-200"
                                         : "bg-amber-50 text-amber-700 ring-amber-200"
-                                }`}
+                                    }`}
                             >
                                 {table.status}
                             </span>
