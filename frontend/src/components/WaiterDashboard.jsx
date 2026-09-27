@@ -9,7 +9,12 @@ import ConfirmLogoutModal from "./ConfirmLogoutModal"
 const WaiterDashboard = () => {
     const { calls, loading: callsLoading, resolveCall } = useWaiterCalls(5000);
     const { orders, loading: ordersLoading } = useOrders(5000);
-      const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+    const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+
+    const handleLogout = () => {
+        logout();
+        navigate("/login");
+    };
 
     const activeOrders = orders.filter((order) => order.status !== "served");
 
