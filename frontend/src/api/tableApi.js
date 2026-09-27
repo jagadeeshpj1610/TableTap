@@ -1,13 +1,13 @@
+import { authHeader } from "../utils/auth"
+
 const defaultApi = import.meta.env.VITE_API_URL;
 
 const getAllTables = async () => {
     try {
         const response = await fetch(`${defaultApi}/tables`);
-        const data = await response.json();
-        return data;
+        return await response.json();
     } catch (error) {
         console.error("failed to fetch tables:", error);
-        throw error;
     }
 };
 
@@ -15,16 +15,13 @@ const createTable = async (tableNumber, qrCodeId) => {
     try {
         const response = await fetch(`${defaultApi}/tables/create`, {
             method: "POST",
-            headers: { "Content-type": "application/json" },
+            headers: { "Content-type": "application/json", ...authHeader() },
             body: JSON.stringify({ tableNumber, qrCodeId })
         });
-        const data = await response.json();
-        return data;
+        return await response.json();
     } catch (error) {
         console.error("failed to create table:", error);
-        throw error;
     }
 };
-
 
 export { createTable, getAllTables }

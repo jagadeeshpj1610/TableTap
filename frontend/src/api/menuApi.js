@@ -1,14 +1,13 @@
-const defaultApi = import.meta.env.VITE_API_URL;
+import { authHeader } from "../utils/auth"
 
+const defaultApi = import.meta.env.VITE_API_URL;
 
 const getMenu = async () => {
     try {
         const response = await fetch(`${defaultApi}/menu`)
-        const fetchedData = await response.json();
-        return fetchedData;
+        return await response.json();
     } catch (error) {
         console.error("failed to fetch the menu:", error.message);
-        throw error;
     }
 }
 
@@ -16,43 +15,37 @@ const createMenuItem = async (formData) => {
     try {
         const response = await fetch(`${defaultApi}/menu`, {
             method: "POST",
-            headers: { "content-type" : "application/json"},
+            headers: { "content-type": "application/json", ...authHeader() },
             body: JSON.stringify(formData)
         })
-        const data = await response.json()
-        return data
+        return await response.json()
     } catch (error) {
         console.error("failed to create the menu : ", error);
-        throw error
     }
 }
 
 const updateMenuItem = async (id, formData) => {
     try {
-        const response = await fetch(`${defaultApi}/menu/${id}`,{
-            method:"PUT",
-            headers:{"content-type" : "application/json"},
-            body:JSON.stringify(formData)
+        const response = await fetch(`${defaultApi}/menu/${id}`, {
+            method: "PUT",
+            headers: { "content-type": "application/json", ...authHeader() },
+            body: JSON.stringify(formData)
         })
-        const data = await response.json();
-        return data
+        return await response.json();
     } catch (error) {
         console.error("failed to update the menu item : ", error);
-        throw error;
     }
 }
-
 
 const deleteMenuItem = async (id) => {
     try {
         const response = await fetch(`${defaultApi}/menu/${id}`, {
-            method: "DELETE"
+            method: "DELETE",
+            headers: { ...authHeader() }
         });
-        const data = await response.json();
-        return data;
+        return await response.json();
     } catch (error) {
         console.error("failed to delete the item : ", error);
-        throw error;
     }
 };
 

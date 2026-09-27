@@ -1,3 +1,5 @@
+import { authHeader } from "../utils/auth"
+
 const defaultApi = import.meta.env.VITE_API_URL;
 
 const createPayment = async (orderId, amount, paymentMethod) => {
@@ -7,11 +9,9 @@ const createPayment = async (orderId, amount, paymentMethod) => {
             headers: { "Content-type": "application/json" },
             body: JSON.stringify({ orderId, amount, paymentMethod })
         });
-        const data = await response.json();
-        return data;
+        return await response.json();
     } catch (error) {
         console.error("failed to create payment:", error);
-        throw error;
     }
 };
 
@@ -19,28 +19,24 @@ const updatePaymentStatus = async (paymentId, status) => {
     try {
         const response = await fetch(`${defaultApi}/payments/${paymentId}/status`, {
             method: "PATCH",
-            headers: { "Content-type": "application/json" },
+            headers: { "Content-type": "application/json", ...authHeader() },
             body: JSON.stringify({ status })
         });
-        const data = await response.json();
-        return data;
+        return await response.json();
     } catch (error) {
         console.error("failed to update payment status:", error);
-        throw error;
     }
 };
 
 const getAllPayments = async () => {
     try {
-        const response = await fetch(`${defaultApi}/payments`);
-        const data = await response.json();
-        return data;
+        const response = await fetch(`${defaultApi}/payments`, {
+            headers: { ...authHeader() }
+        });
+        return await response.json();
     } catch (error) {
         console.error("failed to fetch payments:", error);
-        throw error;
     }
 };
-
-
 
 export { createPayment, updatePaymentStatus, getAllPayments };

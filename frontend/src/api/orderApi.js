@@ -1,3 +1,5 @@
+import { authHeader } from "../utils/auth"
+
 const defaultApi = import.meta.env.VITE_API_URL;
 
 const createOrder = async (tableNumber, orderItems) => {
@@ -5,50 +7,40 @@ const createOrder = async (tableNumber, orderItems) => {
         const response = await fetch(`${defaultApi}/orders`, {
             method: "POST",
             headers: { "Content-type": "application/json" },
-            body: JSON.stringify({
-                tableNumber: tableNumber,
-                items: orderItems
-            })
+            body: JSON.stringify({ tableNumber, items: orderItems })
         })
-        const data = await response.json()
-        return data
-
+        return await response.json()
     } catch (error) {
-        console.error("failed to plcae the order : ", error);
-        throw error;
+        console.error("failed to place the order : ", error);
     }
 }
 
 const getAllOrders = async () => {
     try {
-        const response = await fetch(`${defaultApi}/orders`)
-        const data = await response.json();
-        return data;
+        const response = await fetch(`${defaultApi}/orders`, {
+            headers: { ...authHeader() }
+        })
+        return await response.json();
     } catch (error) {
         console.error("failed to fetch the orders :", error);
-        throw error;
     }
 }
 
 const getOrderById = async (id) => {
     try {
         const response = await fetch(`${defaultApi}/orders/${id}`);
-        const data = await response.json();
-        return data;
+        return await response.json();
     } catch (error) {
         console.error("failed to fetch the order:", error);
-        throw error;
     }
 };
 
 const getOrderBill = async (id) => {
     try {
         const response = await fetch(`${defaultApi}/orders/${id}/bill`)
-        const data = await response.json();
-        return data
+        return await response.json()
     } catch (error) {
         console.error("get the order bill was failed : ", error);
-        throw error;
     }
 }
 
@@ -56,14 +48,12 @@ const updateOrderStatus = async (id, status) => {
     try {
         const response = await fetch(`${defaultApi}/orders/${id}/status`, {
             method: "PATCH",
-            headers: { "content-type": "application/json" },
+            headers: { "content-type": "application/json", ...authHeader() },
             body: JSON.stringify({ status })
         })
-        const data = await response.json();
-        return data;
+        return await response.json();
     } catch (error) {
         console.error("failed to update the order status : ", error);
-        throw error;
     }
 }
 

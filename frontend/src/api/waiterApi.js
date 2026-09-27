@@ -1,3 +1,5 @@
+import { authHeader } from "../utils/auth"
+
 const defaultApi = import.meta.env.VITE_API_URL;
 
 const createWaiterCall = async (tableNumber) => {
@@ -5,40 +7,34 @@ const createWaiterCall = async (tableNumber) => {
         const response = await fetch(`${defaultApi}/waiter-call/call`, {
             method: "POST",
             headers: { "content-type": "application/json" },
-            body: JSON.stringify({
-                tableNumber: tableNumber
-            })
+            body: JSON.stringify({ tableNumber })
         })
-        const data = await response.json()
-        return data
-
+        return await response.json()
     } catch (error) {
         console.error("failed to create a waiter call:", error);
-        throw error;
     }
 }
 
 const getAllWaiterCalls = async () => {
     try {
-        const response = await fetch(`${defaultApi}/waiter-call`)
-        const data = await response.json();
-        return data
+        const response = await fetch(`${defaultApi}/waiter-call`, {
+            headers: { ...authHeader() }
+        })
+        return await response.json();
     } catch (error) {
-        console.error("failed to failed the wauter-calls", error);
-        throw error;
+        console.error("failed to fetch the waiter-calls", error);
     }
 }
 
 const resolveWaiterCall = async (id) => {
     try {
         const response = await fetch(`${defaultApi}/waiter-call/${id}/resolve`, {
-            method: "PATCH"
+            method: "PATCH",
+            headers: { ...authHeader() }
         })
-        const data = await response.json();
-        return data
+        return await response.json();
     } catch (error) {
         console.error("failed to resolve the waiter call", error);
-        throw error;
     }
 }
 

@@ -9,26 +9,42 @@ import AdminOverview from "./components/AdminOverview";
 import AdminWaiterCalls from "./components/AdminWaiterCalls";
 import AdminTableManagement from "./components/AdminTableManagement";
 import WaiterDashboard from "./components/WaiterDashboard";
-
+import Login from "./components/Login";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
     <>
-      <Toaster
-        position="top-center"
-        toastOptions={{
-          style: {
-            fontFamily: "Poppins",
-            fontSize: "14px",
-          },
-        }}
-      />
+      <Toaster position="top-center" toastOptions={{ style: { fontFamily: "Poppins", fontSize: "14px" } }} />
       <Routes>
         <Route path="/" element={<CustomerApp />} />
-        <Route path="/kitchen" element={<KitchenDashboard />} />
-        <Route path="/waiter" element={<WaiterDashboard />} />
+        <Route path="/login" element={<Login />} />
 
-        <Route path="/admin" element={<AdminLayout />}>
+        <Route
+          path="/kitchen"
+          element={
+            <ProtectedRoute allowedRoles={["kitchen", "admin"]}>
+              <KitchenDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/waiter"
+          element={
+            <ProtectedRoute allowedRoles={["waiter", "admin"]}>
+              <WaiterDashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <AdminLayout />
+            </ProtectedRoute>
+          }
+        >
           <Route index element={<Navigate to="overview" replace />} />
           <Route path="overview" element={<AdminOverview />} />
           <Route path="orders" element={<AdminOrderManagement />} />
