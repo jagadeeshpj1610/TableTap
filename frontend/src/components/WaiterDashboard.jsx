@@ -3,6 +3,7 @@ import { FiBell, FiClipboard } from "react-icons/fi"
 import { useWaiterCalls } from "../hooks/useWaiterCalls"
 import { useOrders } from "../hooks/useOrders"
 import WaiterCallCard from "./WaiterCallCard";
+import { useState } from "react";
 import ConfirmLogoutModal from "./ConfirmLogoutModal"
 
 const WaiterDashboard = () => {
