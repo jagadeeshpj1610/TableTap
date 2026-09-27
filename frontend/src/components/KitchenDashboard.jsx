@@ -3,6 +3,7 @@ import { getAllOrders, updateOrderStatus } from "../api/orderApi"
 import { FiClock, FiCheckCircle } from "react-icons/fi"
 import toast from "react-hot-toast"
 import { useOrders } from "../hooks/useOrders"
+import DashboardHeader from "./DashboardHeader"
 
 const KitchenDashboard = () => {
 
@@ -48,27 +49,7 @@ const KitchenDashboard = () => {
 
     return (
         <div className="min-h-screen bg-[#1F2225]">
-            <header className="bg-[#1F2225] border-b border-neutral-700 sticky top-0 z-10">
-                <div className="max-w-7xl mx-auto px-4 sm:px-8 py-4 flex items-center justify-between">
-                    <div>
-                        <h2 className="font-[Poppins] font-extrabold text-lg text-white tracking-tight">
-                            TableTap
-                        </h2>
-                        <p className="font-[Poppins] text-xs font-medium text-neutral-400 mt-0.5">
-                            Kitchen Display
-                        </p>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <span className="relative flex h-2.5 w-2.5">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#2D5F3E] opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#2D5F3E]"></span>
-                        </span>
-                        <span className="font-[Poppins] text-xs font-semibold text-neutral-400">
-                            Live
-                        </span>
-                    </div>
-                </div>
-            </header>
+          <DashboardHeader subtitle="Kitchen Display" />
 
             <div className="max-w-7xl mx-auto px-4 sm:px-8 py-8">
                 <div className="flex items-end justify-between mb-8">
