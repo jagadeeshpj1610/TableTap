@@ -47,14 +47,14 @@ const WaiterDashboard = () => {
     const pendingCalls = calls.filter((call) => call.status !== "resolved");
 
     const orderStatusStyles = {
-        pending: "bg-red-500/10 text-red-400 ring-red-500/30",
+        pending: "bg-amber-500/15 text-amber-400 ring-amber-500/30",
         preparing: "bg-blue-500/10 text-blue-400 ring-blue-500/30",
-        ready: "bg-emerald-500/10 text-emerald-400 ring-emerald-500/30",
+        ready: "bg-[#2D5F3E]/15 text-emerald-300 ring-[#2D5F3E]/40",
     };
 
     return (
-        <div className="min-h-screen bg-[#1A1A1A]">
-            <header className="bg-[#1A1A1A] border-b border-stone-800 sticky top-0 z-10">
+        <div className="min-h-screen bg-[#1F2225]">
+            <header className="bg-[#1F2225] border-b border-neutral-700 sticky top-0 z-10">
                 <div className="max-w-7xl mx-auto px-4 sm:px-8 py-4 flex items-center justify-between">
                     <div>
                         <h2 className="font-[Poppins] font-extrabold text-lg text-white tracking-tight">
@@ -66,8 +66,8 @@ const WaiterDashboard = () => {
                     </div>
                     <div className="flex items-center gap-2">
                         <span className="relative flex h-2.5 w-2.5">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400"></span>
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#2D5F3E] opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#2D5F3E]"></span>
                         </span>
                         <span className="font-[Poppins] text-xs font-semibold text-neutral-400">
                             Live
@@ -83,7 +83,7 @@ const WaiterDashboard = () => {
                         <h2 className="font-[Poppins] font-bold text-lg text-white">Waiter Calls</h2>
                     </div>
                     {pendingCalls.length === 0 ? (
-                        <div className="bg-[#242424] rounded-2xl py-10 text-center">
+                        <div className="bg-[#2A2E32] rounded-2xl py-10 text-center shadow-sm">
                             <p className="font-[Poppins] text-neutral-400 text-sm">No pending calls.</p>
                         </div>
                     ) : (
@@ -91,7 +91,7 @@ const WaiterDashboard = () => {
                             {pendingCalls.map((call) => (
                                 <div
                                     key={call._id}
-                                    className="bg-[#242424] rounded-2xl p-4 flex items-center justify-between gap-4 border-l-4 border-amber-500"
+                                    className="bg-[#2A2E32] rounded-2xl p-4 flex items-center justify-between gap-4 border-l-4 border-amber-500 shadow-sm"
                                 >
                                     <div className="flex items-center gap-4 min-w-0">
                                         <div className="shrink-0 w-11 h-11 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center">
@@ -111,7 +111,7 @@ const WaiterDashboard = () => {
                                     </div>
                                     <button
                                         onClick={() => handleResolve(call._id)}
-                                        className="font-[Poppins] font-bold shrink-0 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-full text-sm cursor-pointer transition-colors"
+                                        className="font-[Poppins] font-bold shrink-0 bg-[#2D5F3E] hover:bg-[#244c32] text-white px-4 py-2.5 rounded-full text-sm cursor-pointer transition-colors"
                                     >
                                         Resolve
                                     </button>
@@ -130,7 +130,7 @@ const WaiterDashboard = () => {
                         {tables.map((table) => (
                             <div
                                 key={table._id}
-                                className="bg-[#242424] rounded-2xl p-4 text-center"
+                                className="bg-[#2A2E32] rounded-2xl p-4 text-center shadow-sm"
                             >
                                 <p className="font-[Poppins] text-xl font-extrabold text-white">
                                     {table.tableNumber}
@@ -138,7 +138,7 @@ const WaiterDashboard = () => {
                                 <span
                                     className={`font-[Poppins] mt-1.5 inline-block px-2.5 py-1 rounded-full text-xs font-semibold capitalize ring-1 ring-inset ${
                                         table.status === "available"
-                                            ? "bg-emerald-500/10 text-emerald-400 ring-emerald-500/30"
+                                            ? "bg-[#2D5F3E]/15 text-emerald-300 ring-[#2D5F3E]/40"
                                             : "bg-amber-500/10 text-amber-400 ring-amber-500/30"
                                     }`}
                                 >
@@ -155,7 +155,7 @@ const WaiterDashboard = () => {
                         <h2 className="font-[Poppins] font-bold text-lg text-white">Active Orders</h2>
                     </div>
                     {activeOrders.length === 0 ? (
-                        <div className="bg-[#242424] rounded-2xl py-10 text-center">
+                        <div className="bg-[#2A2E32] rounded-2xl py-10 text-center shadow-sm">
                             <p className="font-[Poppins] text-neutral-400 text-sm">No active orders.</p>
                         </div>
                     ) : (
@@ -163,7 +163,7 @@ const WaiterDashboard = () => {
                             {activeOrders.map((order) => (
                                 <div
                                     key={order._id}
-                                    className="bg-[#242424] rounded-2xl p-4"
+                                    className="bg-[#2A2E32] rounded-2xl p-4 shadow-sm"
                                 >
                                     <div className="flex justify-between items-center mb-2">
                                         <p className="font-[Poppins] font-bold text-white">
