@@ -6,29 +6,10 @@ import { useWaiterCalls } from "../hooks/useWaiterCalls"
 import { useOrders } from "../hooks/useOrders"
 
 const WaiterDashboard = () => {
-
-    const [tables, setTables] = useState([])
-
-    const [tablesLoading, setTablesLoading] = useState(true)
-
     const { calls, loading: callsLoading, resolveCall } = useWaiterCalls(5000);
     const { orders, loading: ordersLoading } = useOrders(5000);
 
     const activeOrders = orders.filter((order) => order.status !== "served");
-
-    useEffect(() => {
-        const fetchTables = async () => {
-            try {
-                const data = await getAllTables();
-                setTables(data);
-            } catch (err) {
-                toast.error("Failed to load tables");
-            } finally {
-                setTablesLoading(false);
-            }
-        };
-        fetchTables();
-    }, [])
 
     const pendingCalls = calls.filter((call) => call.status !== "resolved");
 
@@ -114,44 +95,6 @@ const WaiterDashboard = () => {
                                     >
                                         Resolve
                                     </button>
-                                </div>
-                            ))}
-                        </div>
-                    )}
-                </section>
-
-                <section className="mb-10">
-                    <div className="flex items-center gap-2 mb-4">
-                        <FiGrid className="text-neutral-400" size={16} />
-                        <h2 className="font-[Poppins] font-bold text-lg text-white">Tables</h2>
-                    </div>
-                    {tablesLoading ? (
-                        <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
-                            {Array.from({ length: 6 }).map((_, i) => (
-                                <div key={i} className="bg-[#2A2E32] rounded-2xl p-4 text-center animate-pulse">
-                                    <div className="h-6 w-8 bg-neutral-700 rounded mx-auto mb-2" />
-                                    <div className="h-5 w-16 bg-neutral-700 rounded-full mx-auto" />
-                                </div>
-                            ))}
-                        </div>
-                    ) : (
-                        <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
-                            {tables.map((table) => (
-                                <div
-                                    key={table._id}
-                                    className="bg-[#2A2E32] rounded-2xl p-4 text-center shadow-sm"
-                                >
-                                    <p className="font-[Poppins] text-xl font-extrabold text-white">
-                                        {table.tableNumber}
-                                    </p>
-                                    <span
-                                        className={`font-[Poppins] mt-1.5 inline-block px-2.5 py-1 rounded-full text-xs font-semibold capitalize ring-1 ring-inset ${table.status === "available"
-                                            ? "bg-[#2D5F3E]/15 text-emerald-300 ring-[#2D5F3E]/40"
-                                            : "bg-amber-500/10 text-amber-400 ring-amber-500/30"
-                                            }`}
-                                    >
-                                        {table.status}
-                                    </span>
                                 </div>
                             ))}
                         </div>
