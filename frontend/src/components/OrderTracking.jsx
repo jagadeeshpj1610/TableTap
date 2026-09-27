@@ -18,12 +18,17 @@ const OrderTracking = ({ currentOrder, onClose, callWaiter, viewBill, bill }) =>
     const [showBill, setShowBill] = useState(false);
 
     useEffect(() => {
+        let hasErrored = false;
         const interval = setInterval(async () => {
             try {
                 const updatedOrder = await getOrderById(currentOrder._id);
                 setLiveOrder(updatedOrder);
+                hasErrored = false;
             } catch (err) {
-                toast.error("Failed to fetch order status. Please try again.");
+                if (!hasErrored) {
+                    toast.error("Failed to fetch order status. Please try again.");
+                    hasErrored = true;
+                }
             }
         }, 5000);
 
