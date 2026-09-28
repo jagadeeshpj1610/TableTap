@@ -12,7 +12,7 @@ Live Domains
 - 2.Backend URL = https://tabletapbackend.onrender.com (No needed for you)
 - 3.Restarunt Staff = https://tabletap.22022cm040.workers.dev/login
 
-# Current status of the project is Almost done but there is some bugs and unnecassary api calls are calling , Needs to fix , will fix soon 
+# Current status of the project is Almost done but there is some bugs and unnecassary api calls , Needs to fix and update , will fix & update soon 
 
 ## Interfaces
 
