@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { getAllOrders } from "../api/orderApi";
-import { socket } from "../socket";
+import { socket } from "../../socket";
 import toast from "react-hot-toast";
 
 export function useOrders() {

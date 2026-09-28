@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom"
 import { login } from "../api/authApi"
 import { saveAuth } from "../utils/auth"
 import toast from "react-hot-toast"
-import { connectStaffSocket } from "../socket"
+import { connectStaffSocket } from "../../socket"
 
 const ROLES = [
     { value: "admin", label: "Admin" },

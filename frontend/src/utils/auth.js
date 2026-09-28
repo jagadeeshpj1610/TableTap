@@ -1,4 +1,4 @@
-import { disconnectSocket } from "../socket"
+import { disconnectSocket } from "../../socket"
 const TOKEN_KEY = "tabletap_token"
 const ROLE_KEY = "tabletap_role"
 
