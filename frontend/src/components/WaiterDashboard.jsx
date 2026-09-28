@@ -6,11 +6,14 @@ import WaiterCallCard from "./WaiterCallCard";
 import { useState } from "react";
 import ConfirmLogoutModal from "./ConfirmLogoutModal"
 import { logout } from "../utils/auth"
+import { useNavigate } from "react-router-dom"
+
 
 const WaiterDashboard = () => {
     const { calls, loading: callsLoading, resolveCall } = useWaiterCalls(5000);
     const { orders, loading: ordersLoading } = useOrders(5000);
     const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+    const navigate = useNavigate()
 
     const handleLogout = () => {
         logout();
