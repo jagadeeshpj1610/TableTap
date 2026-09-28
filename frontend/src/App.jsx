@@ -13,7 +13,7 @@ import Login from "./components/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { useEffect } from "react";
 import { getToken } from "./utils/auth";
-import { connectStaffSocket } from "./socket";
+import { connectStaffSocket } from "../socket";
 
 function App() {
   useEffect(() => {
