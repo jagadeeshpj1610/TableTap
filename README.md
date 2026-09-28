@@ -6,6 +6,14 @@ Built as a real MERN-stack project for a working restaurant, not a toy demo — 
 
 ---
 
+
+Live Domains 
+- 1.Frontend URL = https://tabletap.22022cm040.workers.dev/
+- 2.Backend URL = https://tabletapbackend.onrender.com (No needed for you)
+- 3.Restarunt Staff = https://tabletap.22022cm040.workers.dev/login
+
+# Current status of the project is Almost done but there is some bugs and unnecassary api calls are calling , Needs to fix , will fix soon 
+
 ## Interfaces
 
 TableTap ships four separate experiences from one codebase:
@@ -163,3 +171,4 @@ Kitchen, Waiter, and Admin roles log in with a shared per-role password (set via
 ## Status
 
 All four interfaces are feature-complete, including the manual payment flow and role-based auth. Remaining work before a production deploy: a form-validation pass, clearing test data, and pointing QR codes at a live domain.
+
