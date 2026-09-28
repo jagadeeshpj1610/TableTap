@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react"
-import { getAllOrders, updateOrderStatus } from "../api/orderApi"
+import { useState } from "react"
+import {  updateOrderStatus } from "../api/orderApi"
 import { FiClock, FiCheckCircle } from "react-icons/fi"
 import toast from "react-hot-toast"
 import { useOrders } from "../hooks/useOrders"
@@ -10,7 +10,7 @@ import { logout } from "../utils/auth"
 
 const KitchenDashboard = () => {
 
-    const { orders, setOrders, loading } = useOrders(5000);
+    const { orders, setOrders, loading } = useOrders();
 
     const navigate = useNavigate();
     const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);

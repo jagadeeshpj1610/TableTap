@@ -1,8 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
 import { getAllOrders } from "../api/orderApi";
+import { socket } from "../socket";
 import toast from "react-hot-toast";
 
-export function useOrders(pollMs = 5000) {
+export function useOrders() {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -21,10 +22,16 @@ export function useOrders(pollMs = 5000) {
     }, []);
 
     useEffect(() => {
-        fetchOrders();
-        const interval = setInterval(fetchOrders, pollMs);
-        return () => clearInterval(interval);
-    }, [fetchOrders, pollMs]);
+        fetchOrders(); 
+
+        socket.on("orders:changed", fetchOrders); 
+        socket.on("connect", fetchOrders);        
+
+        return () => {
+            socket.off("orders:changed", fetchOrders);
+            socket.off("connect", fetchOrders);
+        };
+    }, [fetchOrders]);
 
     return { orders, setOrders, loading, error, refetch: fetchOrders };
 }

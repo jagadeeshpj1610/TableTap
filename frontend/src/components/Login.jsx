@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom"
 import { login } from "../api/authApi"
 import { saveAuth } from "../utils/auth"
 import toast from "react-hot-toast"
+import { connectStaffSocket } from "../socket"
 
 const ROLES = [
     { value: "admin", label: "Admin" },
@@ -23,6 +24,7 @@ const Login = () => {
         try {
             const data = await login(role, password)
             saveAuth(data.token, data.role)
+            connectStaffSocket(data.token)
             toast.success(`Logged in as ${data.role}`)
             const redirectTo = location.state?.from || `/${data.role === "admin" ? "admin" : data.role}`
             navigate(redirectTo, { replace: true })

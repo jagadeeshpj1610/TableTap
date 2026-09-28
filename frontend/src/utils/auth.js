@@ -1,3 +1,4 @@
+import { disconnectSocket } from "../socket"
 const TOKEN_KEY = "tabletap_token"
 const ROLE_KEY = "tabletap_role"
 
@@ -12,6 +13,7 @@ export const getRole = () => localStorage.getItem(ROLE_KEY)
 export const logout = () => {
     localStorage.removeItem(TOKEN_KEY)
     localStorage.removeItem(ROLE_KEY)
+    disconnectSocket()
 }
 
 export const authHeader = () => {

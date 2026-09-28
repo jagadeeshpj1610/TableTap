@@ -32,7 +32,7 @@ const WaiterDashboard = () => {
 
     return (
         <div className="min-h-screen bg-[#1F2225]">
-            <DashboardHeader subtitle="Kitchen Display" onLogoutClick={() => setShowLogoutConfirm(true)} />
+            <DashboardHeader subtitle="Kitchen Dashboard" onLogoutClick={() => setShowLogoutConfirm(true)} />
 
             <div className="max-w-7xl mx-auto px-4 sm:px-8 py-8">
                 <section className="mb-10">
