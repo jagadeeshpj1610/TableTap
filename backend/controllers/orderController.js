@@ -1,5 +1,6 @@
 const Order = require('../models/Order')
-const { getIO } = require('../socket')
+const { getIO, emitTo } = require('../socket')
+
 
 
 
@@ -13,7 +14,7 @@ const createOrder = async (req, res) => {
             specialInstructios,
             totalAmount,
         })
-        getIO().to('staff').emit('orders:changed')
+        emitTo('staff', 'orders:changed')
         res.status(201).json(newOrder)
 
     } catch (error) {
@@ -38,10 +39,8 @@ const getOrderById = async (req, res) => {
         if (!specificOrder) {
             return res.status(404).json({ message: "Order not found" });
         }
-        console.log(specificOrder);
         res.status(200).json(specificOrder)
     } catch (error) {
-        console.log("damn");
         res.status(500).json({ message: "failed to get the speific order" })
     }
 }
@@ -54,6 +53,8 @@ const updateOrderStatus = async (req, res) => {
         if (!updatedOrder) {
             return res.status(404).json({ message: "order not found" })
         }
+        emitTo('staff', 'orders:changed')
+        emitTo(`order:${id}`, 'order:updated')
         res.status(200).json(updatedOrder)
     } catch (error) {
         res.status(500).json({ message: 'failed to update the order status' })

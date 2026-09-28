@@ -9,18 +9,21 @@ const initSocket = (httpServer) => {
     })
 
     io.on('connection', (socket) => {
-        
+
         const token = socket.handshake.auth?.token
         if (token) {
             try {
                 jwt.verify(token, process.env.JWT_SECRET)
                 socket.join('staff')
             } catch (err) {
+                console.log('socket auth failed:', err.message)
             }
         }
 
         socket.on('trackOrder', (orderId) => {
-            socket.join(`order:${orderId}`)
+            if (typeof orderId === 'string' && /^[a-f\d]{24}$/i.test(orderId)) {
+                socket.join(`order:${orderId}`)
+            }
         })
     })
 
@@ -32,4 +35,12 @@ const getIO = () => {
     return io
 }
 
-module.exports = { initSocket, getIO }
+const emitTo = (room, event) => {
+    try {
+        getIO().to(room).emit(event)
+    } catch (err) {
+        console.error(`socket emit failed (${event}):`, err.message)
+    }
+}
+
+module.exports = { initSocket, getIO, emitTo }
