@@ -10,6 +10,8 @@ const tableRoutes = require('./routes/tableRoutes')
 const waiterCallRoutes = require('./routes/waiterCallRoutes')
 const paymentRoutes = require('./routes/paymentRoutes')
 const authRoutes = require('./routes/authRoutes')
+const http = require('http')
+const {initSocket} = require('./socket')
 
 const app = express()
 const PORT = process.env.PORT
@@ -46,4 +48,7 @@ app.use('/api/auth', authRoutes)
 console.log(process.env.PORT);
 
 
-app.listen(PORT, () => console.log("server is running on", PORT))
+const server = http.createServer(app)
+initSocket(server)
+
+server.listen(PORT, () => console.log("server is running on", PORT))
